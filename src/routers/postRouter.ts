@@ -1,20 +1,9 @@
 import type { Request, Response } from 'express'
 import express from 'express'
-import { PostController } from '../controller'
-import { AuthorRepository, CategoryRepository, PostRepository, TagRepository } from '../repository'
 import '../utils/extensions'
-import { AuthorService, CategoryService, PostService, TagService } from '../service'
+import { postController } from './controllers'
 
 const router = express.Router()
-const postRepository = new PostRepository()
-const authorRepository = new AuthorRepository()
-const authorService = new AuthorService(authorRepository)
-const tagRepository = new TagRepository()
-const tagService = new TagService(tagRepository)
-const categoryRepository = new CategoryRepository()
-const categoryService = new CategoryService(categoryRepository)
-const postService = new PostService(postRepository, authorService, categoryService, tagService)
-const postController = new PostController(postService)
 
 router.get('/page/:page', (req: Request, res: Response) => {
   return postController.getPosts(req.params.page)

@@ -11,9 +11,7 @@ class PostController {
 
   getPosts(page: string): Promise<Array<PostSummary>> {
     return this.postService.getPagePosts(Number(page))
-      .then((postAndAuthors: { post: PostModelType; author: AuthorModelType }[]) => {
-        return postAndAuthors.map(({ post, author }) => buildPostSummary(post, author))
-      })
+      .then(this.buildPostSummary)
   }
 
   getPostsCount(): Promise<PostCount> {
@@ -24,6 +22,29 @@ class PostController {
     return this.postService.getPostDetailsByUrl(postUrl)
       .then(({ post, author, tags, categories }) => buildPostDetails(post, author, tags, categories))
   }
+
+  getCountByCategoryUrl(categoryUrl: string): Promise<PostCount> {
+    return this.postService.getPostsCountByCategoryUrl(categoryUrl)
+  }
+
+  getPostsByCategoryUrl(categoryUrl: string, page: number) {
+    return this.postService.getPostsByCategoryUrl(categoryUrl, page)
+      .then(this.buildPostSummary)
+  }
+
+  getCountByAuthorId(authorId: string): Promise<PostCount> {
+    return this.postService.getPostsCountByAuthorId(authorId)
+  }
+
+  getPostsByAuthorId(authorId: string, page: number): Promise<PostSummary[]> {
+    return this.postService.getPostsByAuthorId(authorId, page)
+      .then(this.buildPostSummary)
+  }
+
+  private buildPostSummary(postAndAuthors: { post: PostModelType; author: AuthorModelType }[]): PostSummary[] {
+    return postAndAuthors.map(({ post, author }) => buildPostSummary(post, author))
+  }
+
 }
 
 export default PostController

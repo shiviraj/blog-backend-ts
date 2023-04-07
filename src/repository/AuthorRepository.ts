@@ -14,6 +14,10 @@ class AuthorRepository extends Repository<AuthorModelType> {
   findByAuthorId(authorId: string): Promise<AuthorModelType | null> {
     return this.findOne({ userId: authorId })
   }
+
+  findAllAuthors(): Promise<AuthorModelType[]> {
+    return this.findAll({})
+  }
 }
 
 export default AuthorRepository

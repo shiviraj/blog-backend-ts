@@ -19,22 +19,7 @@ class PostService {
 
   getPagePosts(page: number): Promise<{ post: PostModelType; author: AuthorModelType }[]> {
     return this.postRepository.findAllByPageAndVisibilityAndPostStatus(page, 'PUBLIC', 'PUBLISH')
-      .then((posts: PostModelType[]) => {
-        const authorIds = posts.reduce<string[]>((authorIds, post) => {
-          if (!authorIds.includes(post.authorId)) {
-            authorIds.push(post.authorId)
-          }
-          return authorIds
-        }, [])
-
-        return this.authorService.getAllByIds(authorIds)
-          .then((authors: AuthorModelType[]) => {
-            return posts.map((post: PostModelType) => {
-              const author = authors.find((author: AuthorModelType) => author.userId === post.authorId)
-              return { post, author: author! }
-            })
-          })
-      })
+      .then((posts) => this.getPostsWithAuthor(posts))
   }
 
   getPostsCount(): Promise<PostCount> {
@@ -51,6 +36,57 @@ class PostService {
         const categories = await this.categoryService.getAllCategories(post.categories)
         const tags = await this.tagService.getAllTags(post.tags)
         return { post, author: author!, tags, categories }
+      })
+  }
+
+  getPostsCountByCategoryUrl(categoryUrl: string): Promise<PostCount> {
+    return this.getCategoryByCategoryUrl(categoryUrl)
+      .then((category: CategoryModelType) => {
+        return this.postRepository.countByCategoryAndPostStatusAndVisibility(category.categoryId, 'PUBLISH', 'PUBLIC')
+      })
+  }
+
+  getPostsByCategoryUrl(categoryUrl: string, page: number): Promise<{ post: PostModelType; author: AuthorModelType }[]> {
+    return this.getCategoryByCategoryUrl(categoryUrl)
+      .then((category: CategoryModelType) => {
+        return this.postRepository.findAllByCategoryAndPostStatusAndVisibility(category.categoryId, 'PUBLISH', 'PUBLIC', page)
+      })
+      .then((posts) => this.getPostsWithAuthor(posts))
+  }
+
+  getPostsCountByAuthorId(authorId: string): Promise<PostCount> {
+    return this.postRepository.countByAuthorIdAndPostStatusAndVisibility(authorId, 'PUBLISH', 'PUBLIC')
+  }
+
+  getPostsByAuthorId(authorId: string, page: number): Promise<{ post: PostModelType; author: AuthorModelType }[]> {
+    return this.postRepository.findAllByAuthorIdAndPostStatusAndVisibility(authorId, 'PUBLISH', 'PUBLIC', page)
+      .then((posts) => this.getPostsWithAuthor(posts))
+  }
+
+  private getCategoryByCategoryUrl(categoryUrl: string) {
+    return this.categoryService.getCategoryByUrl(categoryUrl)
+      .then(category => {
+        if (category === null) {
+          throw new DataNotFoundError('', 'Category Not Found')
+        }
+        return category
+      })
+  }
+
+  private getPostsWithAuthor(posts: PostModelType[]): Promise<{ post: PostModelType; author: AuthorModelType }[]> {
+    const authorIds = posts.reduce<string[]>((authorIds, post) => {
+      if (!authorIds.includes(post.authorId)) {
+        authorIds.push(post.authorId)
+      }
+      return authorIds
+    }, [])
+
+    return this.authorService.getAllByIds(authorIds)
+      .then((authors: AuthorModelType[]) => {
+        return posts.map((post: PostModelType) => {
+          const author = authors.find((author: AuthorModelType) => author.userId === post.authorId)
+          return { post, author: author! }
+        })
       })
   }
 }

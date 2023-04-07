@@ -11,6 +11,10 @@ class CategoryController {
   getAllCategory(): Promise<CategoryModelType[]> {
     return this.categoryService.getAllCategory()
   }
+
+  getByCategoryUrl(categoryUrl: string): Promise<CategoryModelType | null> {
+    return this.categoryService.getCategoryByUrl(categoryUrl)
+  }
 }
 
 export default CategoryController

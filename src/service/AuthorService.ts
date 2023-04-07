@@ -15,6 +15,10 @@ class AuthorService {
   getAuthorByAuthorId(authorId: string): Promise<AuthorModelType | null> {
     return this.authorRepository.findByAuthorId(authorId)
   }
+
+  getAllAuthors(): Promise<AuthorModelType[]> {
+    return this.authorRepository.findAllAuthors()
+  }
 }
 
 export default AuthorService

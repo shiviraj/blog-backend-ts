@@ -15,6 +15,10 @@ class CategoryService {
   getAllCategories(categories: string[]): Promise<CategoryModelType[]> {
     return this.categoryRepository.findAllByCategoryIds(categories)
   }
+
+  getCategoryByUrl(categoryUrl: string): Promise<CategoryModelType | null> {
+    return this.categoryRepository.findByUrl(categoryUrl)
+  }
 }
 
 export default CategoryService
