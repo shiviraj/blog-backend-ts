@@ -1,6 +1,5 @@
 import type { Document, Model } from 'mongoose'
 import { model, Schema } from 'mongoose'
-import type { AuthorModelType } from './Author'
 
 export type Visibility = 'PUBLIC' | 'PRIVATE'
 export type PostStatus = 'PUBLISH' | 'DRAFT'
@@ -23,7 +22,8 @@ export interface PostModelType extends Document {
   visibility: Visibility,
   postStatus: PostStatus,
   commentsAllowed: boolean,
-  author?: AuthorModelType
+  likes: string[],
+  dislikes: string[]
 }
 
 const schema = new Schema<PostModelType, Model<PostModelType>>({
@@ -41,7 +41,9 @@ const schema = new Schema<PostModelType, Model<PostModelType>>({
   featuredImage: { type: String },
   commentsAllowed: { type: Boolean, default: true },
   categories: [{ type: String }],
-  tags: [{ type: String }]
+  tags: [{ type: String }],
+  likes: [{ type: String }],
+  dislikes: [{ type: String }]
 })
 
 const PostModel = model<PostModelType, Model<PostModelType>>('Post', schema)

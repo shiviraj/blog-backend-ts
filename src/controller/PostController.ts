@@ -20,7 +20,10 @@ class PostController {
 
   getPostDetails(postUrl: string): Promise<PostDetails> {
     return this.postService.getPostDetailsByUrl(postUrl)
-      .then(({ post, author, tags, categories }) => buildPostDetails(post, author, tags, categories))
+      .then((postDetails) => {
+        const { post, author, tags, categories, comments } = postDetails
+        return buildPostDetails(post, author, tags, categories, comments)
+      })
   }
 
   getCountByCategoryUrl(categoryUrl: string): Promise<PostCount> {
@@ -41,8 +44,8 @@ class PostController {
       .then(this.buildPostSummary)
   }
 
-  private buildPostSummary(postAndAuthors: { post: PostModelType; author: AuthorModelType }[]): PostSummary[] {
-    return postAndAuthors.map(({ post, author }) => buildPostSummary(post, author))
+  private buildPostSummary(postAndAuthors: { post: PostModelType; author: AuthorModelType, commentsCount: number }[]): PostSummary[] {
+    return postAndAuthors.map(({ post, author, commentsCount }) => buildPostSummary(post, author, commentsCount))
   }
 
 }

@@ -1,17 +1,29 @@
-import { AuthorRepository, CategoryRepository, PostRepository, TagRepository } from '../repository'
-import { AuthorService, CategoryService, PostService, TagService } from '../service'
-import { CategoryController, PostController } from '../controller'
-import AuthorController from '../controller/AuthorController'
+import {
+  AuthorRepository,
+  CategoryRepository,
+  CommentRepository,
+  IdGeneratorRepository,
+  PostRepository,
+  TagRepository
+} from '../repository'
+import { AuthorService, CategoryService, CommentService, IdGeneratorService, PostService, TagService } from '../service'
+import { AuthorController, CategoryController, CommentController, PostController } from '../controller'
 
 const authorRepository = new AuthorRepository()
-const authorService = new AuthorService(authorRepository)
 const tagRepository = new TagRepository()
-const tagService = new TagService(tagRepository)
 const categoryRepository = new CategoryRepository()
-const categoryService = new CategoryService(categoryRepository)
 const postRepository = new PostRepository()
-const postService = new PostService(postRepository, authorService, categoryService, tagService)
+const commentRepository = new CommentRepository()
+const idGeneratorRepository = new IdGeneratorRepository()
+
+const idGeneratorService = new IdGeneratorService(idGeneratorRepository)
+const authorService = new AuthorService(authorRepository)
+const categoryService = new CategoryService(categoryRepository)
+const commentService = new CommentService(commentRepository, idGeneratorService)
+const tagService = new TagService(tagRepository)
+const postService = new PostService(postRepository, authorService, categoryService, tagService, commentService)
 
 export const authorController = new AuthorController(authorService)
 export const categoryController = new CategoryController(categoryService)
+export const commentController = new CommentController(commentService)
 export const postController = new PostController(postService)

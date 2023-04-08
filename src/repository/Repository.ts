@@ -1,4 +1,4 @@
-import type { Model } from 'mongoose'
+import type { FilterQuery, Model, UpdateQuery, UpdateWriteOpResult } from 'mongoose'
 
 type QueryType = Record<string, unknown>
 
@@ -29,6 +29,16 @@ class Repository<T> {
   protected findOne<Q extends QueryType>(query: Q): Promise<T | null> {
     return this.model.findOne(query)
       .then((data: T | null) => data)
+  }
+
+  protected save<Q extends QueryType>(query: Q): Promise<T> {
+    return new this.model(query).save()
+      .then((data: T) => data)
+  }
+
+  protected updateOne(filter: FilterQuery<T>, value: UpdateQuery<T>): Promise<UpdateWriteOpResult> {
+    return this.model.updateOne(filter, value)
+      .then((data: UpdateWriteOpResult) => data)
   }
 }
 

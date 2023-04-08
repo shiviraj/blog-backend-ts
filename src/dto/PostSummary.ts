@@ -27,7 +27,7 @@ const generateSummary = (post: PostModelType): string => {
     .concat('... ')
 }
 
-export const buildPostSummary = (post: PostModelType, author: AuthorModelType): PostSummary => {
+export const buildPostSummary = (post: PostModelType, author: AuthorModelType, commentsCount: number): PostSummary => {
   return {
     author: buildAuthor(author),
     commentsAllowed: post.commentsAllowed,
@@ -38,6 +38,6 @@ export const buildPostSummary = (post: PostModelType, author: AuthorModelType): 
     postId: post.postId,
     featuredImage: post.featuredImage,
     summary: generateSummary(post),
-    comments: 4
+    comments: commentsCount
   }
 }
