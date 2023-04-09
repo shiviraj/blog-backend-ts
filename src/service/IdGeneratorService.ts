@@ -10,11 +10,8 @@ class IdGeneratorService {
 
   generate(sequenceId: IdType): Promise<string> {
     return this.idGeneratorRepository.findByName(sequenceId.name)
-      .then((id) => {
-        if (id === null) {
-          return this.idGeneratorRepository.saveOne(sequenceId.name, 0)
-        }
-        return id
+      .catch(() => {
+        return this.idGeneratorRepository.saveOne(sequenceId.name, 0)
       })
       .then((id) => {
         const sequence = id.sequence.add(Integer.ONE)

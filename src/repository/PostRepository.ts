@@ -12,7 +12,8 @@ class PostRepository extends Repository<PostModelType> {
   }
 
   findAllByPageAndVisibilityAndPostStatus(page: number, visibility: Visibility, postStatus: PostStatus): Promise<PostModelType[]> {
-    return this.findAllWithPage({ visibility, postStatus }, this.getSkip(page), POST_LIMIT)
+    const query = { visibility, postStatus }
+    return this.findAllWithPage(query, this.getSkip(page), POST_LIMIT, { lastUpdateOn: -1 })
   }
 
   countByPostStatusAndVisibility(postStatus: PostStatus, visibility: Visibility): Promise<PostCount> {
@@ -30,7 +31,8 @@ class PostRepository extends Repository<PostModelType> {
   }
 
   findAllByCategoryAndPostStatusAndVisibility(categoryId: string, postStatus: PostStatus, visibility: Visibility, page: number): Promise<PostModelType[]> {
-    return this.findAllWithPage({ categories: categoryId, postStatus, visibility }, this.getSkip(page), POST_LIMIT)
+    const query = { categories: categoryId, postStatus, visibility }
+    return this.findAllWithPage(query, this.getSkip(page), POST_LIMIT, { lastUpdateOn: -1 })
   }
 
   countByAuthorIdAndPostStatusAndVisibility(authorId: string, postStatus: PostStatus, visibility: Visibility): Promise<PostCount> {
@@ -39,7 +41,8 @@ class PostRepository extends Repository<PostModelType> {
   }
 
   findAllByAuthorIdAndPostStatusAndVisibility(authorId: string, postStatus: PostStatus, visibility: Visibility, page: number): Promise<PostModelType[]> {
-    return this.findAllWithPage({ authorId, postStatus, visibility }, this.getSkip(page), POST_LIMIT)
+    const query = { authorId, postStatus, visibility }
+    return this.findAllWithPage(query, this.getSkip(page), POST_LIMIT, { lastUpdateOn: -1 })
   }
 
   updateLikesByPostId(likes: string[], postId: string): Promise<UpdateWriteOpResult> {

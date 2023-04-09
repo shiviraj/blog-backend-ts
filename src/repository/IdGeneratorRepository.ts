@@ -17,7 +17,7 @@ class IdGeneratorRepository extends Repository<IdSequenceModelType> {
     super(IdSequenceModel)
   }
 
-  findByName(name: string): Promise<IdSequenceModelType | null> {
+  findByName(name: string): Promise<IdSequenceModelType> {
     return this.findOne({ name })
   }
 

@@ -8,13 +8,13 @@ const router = express.Router()
 router.post('/:postId', (req: Request, res: Response) => {
   return commentController.addComment(req.params.postId as string, req.body as CommentInputType)
     .sendSuccessResponse(res)
-    .sendFailureResponse(res)
+    .sendFailureResponseWithNoError(res)
 })
 
 router.put('/:commentId', (req: Request, res: Response) => {
   return commentController.updateLikeOnComment(req.params.commentId as string, req.body.visitorId as string)
     .sendSuccessResponse(res)
-    .sendFailureResponse(res)
+    .sendFailureResponseWithNoError(res)
 })
 
 export default router

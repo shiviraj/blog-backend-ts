@@ -1,4 +1,4 @@
-import type { FilterQuery, Model, UpdateQuery, UpdateWriteOpResult } from 'mongoose'
+import type { FilterQuery, Model, SortOrder, UpdateQuery, UpdateWriteOpResult } from 'mongoose'
 import { DataNotFoundError } from '../exceptions'
 
 class Repository<T> {
@@ -13,10 +13,11 @@ class Repository<T> {
       .then((data: T[]) => data)
   }
 
-  protected findAllWithPage(query: FilterQuery<T>, skip: number, limit: number): Promise<T[]> {
+  protected findAllWithPage<K extends keyof T>(query: FilterQuery<T>, skip: number, limit: number, sortQuery: Record<K, SortOrder>): Promise<T[]> {
     return this.model.find(query ?? {})
       .skip(skip)
       .limit(limit)
+      .sort(sortQuery)
       .then((data: T[]) => data)
   }
 
