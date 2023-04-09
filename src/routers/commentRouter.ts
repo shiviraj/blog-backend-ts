@@ -11,4 +11,10 @@ router.post('/:postId', (req: Request, res: Response) => {
     .sendFailureResponse(res)
 })
 
+router.put('/:commentId', (req: Request, res: Response) => {
+  return commentController.updateLikeOnComment(req.params.commentId as string, req.body.visitorId as string)
+    .sendSuccessResponse(res)
+    .sendFailureResponse(res)
+})
+
 export default router

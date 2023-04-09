@@ -23,7 +23,6 @@ export interface PostModelType extends Document {
   postStatus: PostStatus,
   commentsAllowed: boolean,
   likes: string[],
-  dislikes: string[]
 }
 
 const schema = new Schema<PostModelType, Model<PostModelType>>({
@@ -42,8 +41,7 @@ const schema = new Schema<PostModelType, Model<PostModelType>>({
   commentsAllowed: { type: Boolean, default: true },
   categories: [{ type: String }],
   tags: [{ type: String }],
-  likes: [{ type: String }],
-  dislikes: [{ type: String }]
+  likes: [{ type: String }]
 })
 
 const PostModel = model<PostModelType, Model<PostModelType>>('Post', schema)

@@ -1,24 +1,12 @@
 import Repository from './Repository'
 import { CommentModel, CommentModelType } from '../models'
-import { FilterQuery } from 'mongoose'
+import { FilterQuery, UpdateWriteOpResult } from 'mongoose'
 
 type CommentStatus = 'APPROVED' | 'UNAPPROVED'
 
 class CommentRepository extends Repository<CommentModelType> {
   constructor() {
     super(CommentModel)
-  }
-
-  findAllCategories(): Promise<CommentModelType[]> {
-    return this.findAll({})
-  }
-
-  findAllByCommentIds(categories: string[]): Promise<CommentModelType[]> {
-    return this.findAll({ commentId: { $in: categories } })
-  }
-
-  findByUrl(url: string): Promise<CommentModelType | null> {
-    return this.findOne({ url })
   }
 
   saveOne(query: FilterQuery<CommentModelType>): Promise<CommentModelType> {
@@ -31,6 +19,14 @@ class CommentRepository extends Repository<CommentModelType> {
 
   countByPostIdAndStatus(postId: string, status: string): Promise<number> {
     return this.count({ postId, status })
+  }
+
+  findByCommentId(commentId: string): Promise<CommentModelType> {
+    return this.findOne({ commentId })
+  }
+
+  updateLikesByCommentId(likes: string[], commentId: string): Promise<UpdateWriteOpResult> {
+    return this.updateOne({ commentId }, { likes })
   }
 }
 

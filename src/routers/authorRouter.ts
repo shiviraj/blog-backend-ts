@@ -11,6 +11,12 @@ router.get('', (_req: Request, res: Response) => {
     .sendFailureResponse(res)
 })
 
+router.get('/visitor', (_req: Request, res: Response) => {
+  return authorController.createVisitorId()
+    .sendSuccessResponse(res)
+    .sendFailureResponse(res)
+})
+
 router.get('/:authorId/count', (req: Request, res: Response) => {
   return postController.getCountByAuthorId(req.params.authorId as string)
     .sendSuccessResponse(res)

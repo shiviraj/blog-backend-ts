@@ -14,12 +14,13 @@ export interface CommentModelType extends Document {
 
   likes: string[]
 
-  dislikes: string[]
-  pinned: boolean
+  pinned: boolean,
+  parentId?: string
 }
 
 const schema = new Schema<CommentModelType, Model<CommentModelType>>({
   commentId: { type: String, unique: true, required: true },
+  parentId: { type: String },
   postId: { type: String, required: true },
   user: {
     userId: { type: String, required: true, default: '0001' },
@@ -29,7 +30,6 @@ const schema = new Schema<CommentModelType, Model<CommentModelType>>({
   message: { type: String, required: true },
   status: { type: String, default: 'UNAPPROVED' },
   likes: [{ type: String }],
-  dislikes: [{ type: String }],
   pinned: { type: Boolean, default: false },
   commentedOn: { type: String, default: new Date().toJSON() }
 })

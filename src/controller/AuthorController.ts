@@ -17,6 +17,11 @@ class AuthorController {
   getByAuthorId(authorId: string): Promise<AuthorModelType | null> {
     return this.authorService.getAuthorByAuthorId(authorId)
   }
+
+  createVisitorId(): Promise<{ visitorId: string }> {
+    return this.authorService.createVisitor()
+      .then((visitorId: string) => ({ visitorId }))
+  }
 }
 
 export default AuthorController

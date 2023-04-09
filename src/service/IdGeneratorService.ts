@@ -8,11 +8,11 @@ class IdGeneratorService {
     this.idGeneratorRepository = idGeneratorRepository
   }
 
-  generate(idType: IdType): Promise<string> {
-    return this.idGeneratorRepository.findByName(idType.name)
+  generate(sequenceId: IdType): Promise<string> {
+    return this.idGeneratorRepository.findByName(sequenceId.name)
       .then((id) => {
         if (id === null) {
-          return this.idGeneratorRepository.saveOne(idType.name, 0)
+          return this.idGeneratorRepository.saveOne(sequenceId.name, 0)
         }
         return id
       })
@@ -20,7 +20,7 @@ class IdGeneratorService {
         const sequence = id.sequence.add(Integer.ONE)
         return this.idGeneratorRepository.updateSequenceByName(sequence, id.name)
           .then(() => {
-            return sequence.toString().padStart(idType.length, '0')
+            return sequence.toString().padStart(sequenceId.length, '0')
           })
       })
   }

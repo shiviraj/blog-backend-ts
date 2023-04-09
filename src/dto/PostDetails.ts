@@ -18,7 +18,6 @@ export interface PostDetails {
   categories: Category[],
   content: any,
   likes: string[],
-  dislikes: string[]
 }
 
 export const buildPostDetails = (post: PostModelType, author: AuthorModelType, tags: TagModelType[], categories: CategoryModelType[], comments: CommentModelType[]): PostDetails => {
@@ -35,7 +34,6 @@ export const buildPostDetails = (post: PostModelType, author: AuthorModelType, t
     categories: categories.map(buildCategory),
     tags: tags.map(buildTag),
     content: post.publishedContent,
-    dislikes: post.likes,
-    likes: post.dislikes
+    likes: post.likes
   }
 }

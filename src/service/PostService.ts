@@ -38,7 +38,7 @@ class PostService {
         const categories = await this.categoryService.getAllCategories(post.categories)
         const tags = await this.tagService.getAllTags(post.tags)
         const comments = await this.commentService.getAllComments(post.postId)
-        return { post, author: author!, tags, categories, comments }
+        return { post, author, tags, categories, comments }
       })
   }
 
@@ -64,6 +64,15 @@ class PostService {
   getPostsByAuthorId(authorId: string, page: number): Promise<{ post: PostModelType; author: AuthorModelType; commentsCount: number }[]> {
     return this.postRepository.findAllByAuthorIdAndPostStatusAndVisibility(authorId, 'PUBLISH', 'PUBLIC', page)
       .then((posts) => this.getPostsWithAuthorAndCommentCount(posts))
+  }
+
+  updateLikeOnPost(postId: string, visitorId: string): Promise<{ likes: string[] }> {
+    return this.postRepository.findByPostId(postId)
+      .then((post: PostModelType) => {
+        const likes = post.likes.includes(visitorId) ? post.likes.filter((visitor) => visitor !== visitorId) : post.likes.concat(visitorId)
+        return this.postRepository.updateLikesByPostId(likes, postId)
+          .then(() => ({ likes }))
+      })
   }
 
   private getCategoryByCategoryUrl(categoryUrl: string) {
@@ -93,6 +102,7 @@ class PostService {
         })
     }))
   }
+
 }
 
 export default PostService

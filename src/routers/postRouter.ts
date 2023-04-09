@@ -23,4 +23,10 @@ router.get('/:postUrl', (req: Request, res: Response) => {
     .sendFailureResponse(res)
 })
 
+router.put('/:postId/user-reaction', (req: Request, res: Response) => {
+  return postController.updateLikeOnPost(req.params.postId, req.body.visitorId as string)
+    .sendSuccessResponse(res)
+    .sendFailureResponse(res)
+})
+
 export default router

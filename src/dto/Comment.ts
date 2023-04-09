@@ -6,7 +6,8 @@ export interface Comment {
   message: string
   commentedOn: string
   likes: string[]
-  dislikes: string[]
+  postId: string,
+  parentId?: string
 }
 
 export const buildComment = (comment: CommentModelType): Comment => {
@@ -15,7 +16,8 @@ export const buildComment = (comment: CommentModelType): Comment => {
     commentedOn: comment.commentedOn,
     message: comment.message,
     user: { name: comment.user.name, userId: comment.user.userId },
-    likes: [],
-    dislikes: []
+    likes: comment.likes,
+    postId: comment.postId,
+    parentId: comment.parentId
   }
 }

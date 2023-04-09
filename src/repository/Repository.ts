@@ -1,6 +1,5 @@
 import type { FilterQuery, Model, UpdateQuery, UpdateWriteOpResult } from 'mongoose'
-
-type QueryType = Record<string, unknown>
+import { DataNotFoundError } from '../exceptions'
 
 class Repository<T> {
   private readonly model: Model<T>
@@ -9,29 +8,34 @@ class Repository<T> {
     this.model = model
   }
 
-  protected findAll<Q extends QueryType>(query?: Q): Promise<T[]> {
+  protected findAll(query: FilterQuery<T>): Promise<T[]> {
     return this.model.find(query ?? {})
       .then((data: T[]) => data)
   }
 
-  protected findAllWithPage<Q extends QueryType>(query: Q, skip: number, limit: number): Promise<T[]> {
+  protected findAllWithPage(query: FilterQuery<T>, skip: number, limit: number): Promise<T[]> {
     return this.model.find(query ?? {})
       .skip(skip)
       .limit(limit)
       .then((data: T[]) => data)
   }
 
-  protected count<Q extends QueryType>(query: Q): Promise<number> {
+  protected count(query: FilterQuery<T>): Promise<number> {
     return this.model.count(query)
       .then((count: number) => count)
   }
 
-  protected findOne<Q extends QueryType>(query: Q): Promise<T | null> {
+  protected findOne(query: FilterQuery<T>): Promise<T> {
     return this.model.findOne(query)
-      .then((data: T | null) => data)
+      .then((data: T | null) => {
+        if (data === null) {
+          throw new DataNotFoundError(this.model.name)
+        }
+        return data
+      })
   }
 
-  protected save<Q extends QueryType>(query: Q): Promise<T> {
+  protected save(query: FilterQuery<T>): Promise<T> {
     return new this.model(query).save()
       .then((data: T) => data)
   }

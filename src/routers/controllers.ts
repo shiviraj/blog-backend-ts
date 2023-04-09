@@ -17,7 +17,7 @@ const commentRepository = new CommentRepository()
 const idGeneratorRepository = new IdGeneratorRepository()
 
 const idGeneratorService = new IdGeneratorService(idGeneratorRepository)
-const authorService = new AuthorService(authorRepository)
+const authorService = new AuthorService(authorRepository, idGeneratorService)
 const categoryService = new CategoryService(categoryRepository)
 const commentService = new CommentService(commentRepository, idGeneratorService)
 const tagService = new TagService(tagRepository)

@@ -3,9 +3,13 @@ import { IdSequenceModel, IdSequenceModelType } from '../models'
 import { UpdateWriteOpResult } from 'mongoose'
 
 export type IdType = { name: string, length: number }
-type SequenceIdType = 'comment'
-export const SequenceId: Record<SequenceIdType, IdType> = {
-  comment: { name: 'Comment', length: 8 }
+type SequenceIdType = {
+  VISITOR: IdType
+  COMMENT: IdType
+}
+export const SequenceId: SequenceIdType = {
+  VISITOR: { name: 'Visitor', length: 16 },
+  COMMENT: { name: 'Comment', length: 8 }
 }
 
 class IdGeneratorRepository extends Repository<IdSequenceModelType> {

@@ -2,6 +2,7 @@ import Repository from './Repository'
 import type { PostModelType, PostStatus, Visibility } from '../models'
 import { PostModel } from '../models'
 import { PostCount } from '../dto'
+import { UpdateWriteOpResult } from 'mongoose'
 
 const POST_LIMIT = 10
 
@@ -41,6 +42,14 @@ class PostRepository extends Repository<PostModelType> {
     return this.findAllWithPage({ authorId, postStatus, visibility }, this.getSkip(page), POST_LIMIT)
   }
 
+  updateLikesByPostId(likes: string[], postId: string): Promise<UpdateWriteOpResult> {
+    return this.updateOne({ postId }, { likes })
+  }
+
+  findByPostId(postId: string): Promise<PostModelType> {
+    return this.findOne({ postId })
+  }
+
   private getSkip(page: number): number {
     return (page - 1) * POST_LIMIT
   }
@@ -48,6 +57,7 @@ class PostRepository extends Repository<PostModelType> {
   private getPostsCount(count: number): { pageCount: number; postCount: number } {
     return { postCount: count, pageCount: Math.ceil(count / POST_LIMIT) }
   }
+
 }
 
 export default PostRepository

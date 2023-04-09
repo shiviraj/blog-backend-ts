@@ -48,6 +48,9 @@ class PostController {
     return postAndAuthors.map(({ post, author, commentsCount }) => buildPostSummary(post, author, commentsCount))
   }
 
+  updateLikeOnPost(postId: string, visitorId: string): Promise<{ likes: string[] }> {
+    return this.postService.updateLikeOnPost(postId, visitorId)
+  }
 }
 
 export default PostController
