@@ -8,8 +8,8 @@ export interface PostDetails {
   postId: string,
   url: string,
   title: string,
-  publishedOn: string,
-  lastUpdateOn: string,
+  publishedOn: Date,
+  lastUpdateOn: Date,
   commentsAllowed: boolean,
   author: Author,
   featuredImage?: string

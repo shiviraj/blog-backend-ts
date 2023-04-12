@@ -10,10 +10,8 @@ export interface CommentModelType extends Document {
   postId: string
   message: string
   status: CommentStatus
-  commentedOn: string
-
+  commentedOn: Date
   likes: string[]
-
   pinned: boolean,
   parentId?: string
 }
@@ -31,7 +29,7 @@ const schema = new Schema<CommentModelType, Model<CommentModelType>>({
   status: { type: String, default: 'UNAPPROVED' },
   likes: [{ type: String }],
   pinned: { type: Boolean, default: false },
-  commentedOn: { type: String, default: new Date().toJSON() }
+  commentedOn: { type: Date, default: new Date() }
 })
 
 const CommentModel = model<CommentModelType, Model<CommentModelType>>('Comment', schema)

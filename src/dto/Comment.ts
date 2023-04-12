@@ -4,7 +4,7 @@ export interface Comment {
   user: { name: string, userId: string }
   commentId: string
   message: string
-  commentedOn: string
+  commentedOn: Date
   likes: string[]
   postId: string,
   parentId?: string

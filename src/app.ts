@@ -3,26 +3,30 @@ import express from 'express'
 import cors from 'cors'
 import './controller'
 import router from './router'
+import { logger } from './logger'
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get('/', (_req: Request, res: Response) => {
-  res.send({ message: 'Hello! you have just arrived at Poetry server' })
-})
-
 app.use((req: Request, res: Response, next: NextFunction) => {
-  console.log({ message: 'Received Request', data: { method: req.method, url: req.url } })
+  const startTime = new Date()
+  logger.request('Received Request', req.method, req.url, req.body)
   const send = res.send
-  res.send = function(data: any) {
-    console.log({
-      message: 'Response for the request',
-      data: { method: req.method, url: req.url, statusCode: res.statusCode }
-    })
+  let isLogged = false
+  res.send = function(data: Record<string, unknown>) {
+    const responseTime: number = new Date().getTime() - startTime.getTime()
+    if (!isLogged) {
+      logger.response('Response for the request', req.method, req.url, res.statusCode, data, responseTime)
+      isLogged = true
+    }
     return send.call(this, data)
   }
   next()
+})
+
+app.get('/', (_req: Request, res: Response) => {
+  res.send({ message: 'Hello! you have just arrived at backend server' })
 })
 
 // app.use(async (req: Request, res: Response, next: NextFunction) => {
