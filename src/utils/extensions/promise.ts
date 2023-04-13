@@ -38,7 +38,7 @@ Promise.prototype.sendFailureResponse = function <T>(this: Promise<T>, response:
 }
 
 Promise.prototype.sendFailureResponseWithNoError = function <T>(this: Promise<T>, response: Response, statusCode?: number, data?: Record<string, unknown>): void {
-  this.sendFailureResponse(response, statusCode, data).catch((error: Error) => {
+  this.sendFailureResponse(response, statusCode, data).catch(() => {
   })
 }
 
