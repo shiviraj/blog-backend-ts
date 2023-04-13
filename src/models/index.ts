@@ -1,4 +1,3 @@
-
 export { default as AuthorModel } from './Author'
 export * from './Author'
 
@@ -17,3 +16,5 @@ export * from './Post'
 export { default as TagModel } from './Tag'
 export * from './Tag'
 
+export { default as TokenModel } from './Token'
+export * from './Token'

@@ -16,3 +16,6 @@ export * from './IdGeneratorRepository'
 export { default as TagRepository } from './TagRepository'
 export * from './TagRepository'
 
+export { default as TokenRepository } from './TokenRepository'
+export * from './TokenRepository'
+

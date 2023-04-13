@@ -35,4 +35,10 @@ router.get('/:authorId/page/:page', (req: Request, res: Response) => {
     .sendFailureResponseWithNoError(res)
 })
 
+router.post('/login', (req: Request, res: Response) => {
+  return authorController.login(req.body.email, req.body.password)
+    .sendSuccessResponse(res)
+    .sendFailureResponseWithNoError(res)
+})
+
 export default router

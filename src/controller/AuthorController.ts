@@ -1,6 +1,6 @@
 import { AuthorService } from '../service'
 import { Author, buildAuthor } from '../dto'
-import { AuthorModelType } from '../models'
+import { AuthorModelType, TokenModelType } from '../models'
 
 class AuthorController {
   private authorService: AuthorService
@@ -21,6 +21,11 @@ class AuthorController {
   createVisitorId(): Promise<{ visitorId: string }> {
     return this.authorService.createVisitor()
       .then((visitorId: string) => ({ visitorId }))
+  }
+
+  login(email: string, password: string): Promise<{ token: string }> {
+    return this.authorService.login(email, password)
+      .then((token: TokenModelType) => ({ token: token.tokenString }))
   }
 }
 

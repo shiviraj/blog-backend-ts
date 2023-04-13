@@ -1,5 +1,7 @@
 import type { Response } from 'express'
 import { Error } from 'mongoose'
+import BadRequestError from '../../exceptions/BadRequestError'
+import { logger } from '../../logger'
 
 export {}
 
@@ -26,25 +28,30 @@ Promise.prototype.sendSuccessResponse = function <T>(this: Promise<T>, response:
 
 Promise.prototype.sendFailureResponse = function <T>(this: Promise<T>, response: Response, statusCode?: number, data?: Record<string, unknown>): Promise<T> {
   return this.catch((error: Error) => {
-    response.status(statusCode ?? 500).send(data ?? { errorMessage: 'Server Error' })
+    if (error instanceof BadRequestError) {
+      response.status(400).send(data ?? { errorMessage: error.message || 'Bad Request' })
+    } else {
+      response.status(500).send(data ?? { errorMessage: error.message || 'Server Error' })
+    }
     throw error
   })
 }
 
 Promise.prototype.sendFailureResponseWithNoError = function <T>(this: Promise<T>, response: Response, statusCode?: number, data?: Record<string, unknown>): void {
-  this.sendFailureResponse(response, statusCode, data).catch()
+  this.sendFailureResponse(response, statusCode, data).catch((error: Error) => {
+  })
 }
 
 Promise.prototype.logOnSuccess = function <T, D extends Record<string, unknown>>(this: Promise<T>, message: string, data?: D): Promise<T> {
   return this.then((param: T) => {
-    console.log({ message, data, level: 'INFO' })
+    logger.info(message, data)
     return param
   })
 }
 
 Promise.prototype.logOnError = function <T, D extends Record<string, unknown>>(this: Promise<T>, errorCode: string, errorMessage: string, data?: D): Promise<T> {
   return this.catch((error: Error) => {
-    console.error({ errorCode, errorMessage, data, level: 'ERROR' })
+    logger.error(errorCode, errorMessage, error, data)
     throw error
   })
 }

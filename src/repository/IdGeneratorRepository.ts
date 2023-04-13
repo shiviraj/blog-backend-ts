@@ -4,10 +4,12 @@ import { UpdateWriteOpResult } from 'mongoose'
 
 export type IdType = { name: string, length: number }
 type SequenceIdType = {
+  TOKEN: IdType
   VISITOR: IdType
   COMMENT: IdType
 }
 export const SequenceId: SequenceIdType = {
+  TOKEN: { name: 'TOKEN', length: 16 },
   VISITOR: { name: 'Visitor', length: 16 },
   COMMENT: { name: 'Comment', length: 8 }
 }

@@ -11,7 +11,7 @@ export interface Author {
 export const buildAuthor = (author: AuthorModelType): Author => {
   return {
     profile: author.profile,
-    authorId: author.userId,
+    authorId: author.authorId,
     name: author.name,
     displayName: author.displayName ?? author.name
   }

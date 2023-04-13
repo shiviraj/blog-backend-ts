@@ -4,9 +4,18 @@ import {
   CommentRepository,
   IdGeneratorRepository,
   PostRepository,
-  TagRepository
+  TagRepository,
+  TokenRepository
 } from '../repository'
-import { AuthorService, CategoryService, CommentService, IdGeneratorService, PostService, TagService } from '../service'
+import {
+  AuthorService,
+  CategoryService,
+  CommentService,
+  IdGeneratorService,
+  PostService,
+  TagService,
+  TokenService
+} from '../service'
 import { AuthorController, CategoryController, CommentController, PostController } from '../controller'
 
 const authorRepository = new AuthorRepository()
@@ -15,9 +24,11 @@ const categoryRepository = new CategoryRepository()
 const postRepository = new PostRepository()
 const commentRepository = new CommentRepository()
 const idGeneratorRepository = new IdGeneratorRepository()
+const tokenRepository = new TokenRepository()
 
 const idGeneratorService = new IdGeneratorService(idGeneratorRepository)
-const authorService = new AuthorService(authorRepository, idGeneratorService)
+const tokenService = new TokenService(tokenRepository, idGeneratorService)
+const authorService = new AuthorService(authorRepository, idGeneratorService, tokenService)
 const categoryService = new CategoryService(categoryRepository)
 const commentService = new CommentService(commentRepository, idGeneratorService)
 const tagService = new TagService(tagRepository)

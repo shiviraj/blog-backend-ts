@@ -97,7 +97,7 @@ class PostService {
     return Promise.all(posts.map((post: PostModelType) => {
       return this.commentService.countByPostId(post.postId)
         .then(count => {
-          const author = authors.find((author: AuthorModelType) => author.userId === post.authorId)
+          const author = authors.find((author: AuthorModelType) => author.authorId === post.authorId)
           return { post, author: author!, commentsCount: count }
         })
     }))

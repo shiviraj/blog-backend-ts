@@ -65,6 +65,7 @@ export const logger = {
       encryptedData: encryptData(data ?? {}),
       additionalData,
       searchableFields,
+      error: error,
       label: 'ERROR'
     })
   }

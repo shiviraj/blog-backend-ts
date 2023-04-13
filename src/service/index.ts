@@ -15,3 +15,6 @@ export * from './PostService'
 
 export { default as TagService } from './TagService'
 export * from './TagService'
+
+export { default as TokenService } from './TokenService'
+export * from './TokenService'
