@@ -44,13 +44,45 @@ class PostController {
       .then(this.buildPostSummary)
   }
 
-  private buildPostSummary(postAndAuthors: { post: PostModelType; author: AuthorModelType, commentsCount: number }[]): PostSummary[] {
+  private buildPostSummary(postAndAuthors: {
+    post: PostModelType;
+    author: AuthorModelType,
+    commentsCount: number
+  }[]): PostSummary[] {
     return postAndAuthors.map(({ post, author, commentsCount }) => buildPostSummary(post, author, commentsCount))
   }
 
   updateLikeOnPost(postId: string, visitorId: string): Promise<{ likes: string[] }> {
     return this.postService.updateLikeOnPost(postId, visitorId)
   }
+
+  getAllPostsByAuthorId(authorId: string): Promise<PostModelType[]> {
+    return this.postService.getAllByAuthorId(authorId)
+  }
+
+  addNewPost(authorId: string): Promise<PostModelType> {
+    return this.postService.addNewPost(authorId)
+  }
+
+  getPostByPostIdAndAuthorId(postId: string, authorId: string): Promise<PostModelType> {
+    return this.postService.getPostByPostIdAndAuthorId(postId, authorId)
+  }
+
+  publishPostByPostIdAndAuthorId(postId: string, authorId: string): Promise<{ status: true }> {
+    return this.postService.publishPostByPostIdAndAuthorId(postId, authorId)
+      .then(() => ({ status: true }))
+  }
+
+  updatePostByAuthorId(authorId: string, post: PostModelType): Promise<{ status: true }> {
+    return this.postService.updatePostByAuthorId(authorId, post)
+      .then(() => ({ status: true }))
+  }
+
+  getUrlAvailability(postId: string, url: string): Promise<{ status: boolean }> {
+    return this.postService.getUrlAvailability(postId, url)
+      .then(status => ({ status }))
+  }
+
 }
 
 export default PostController

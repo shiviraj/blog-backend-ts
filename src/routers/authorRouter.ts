@@ -23,6 +23,15 @@ router.get('/:authorId/count', (req: Request, res: Response) => {
     .sendFailureResponseWithNoError(res)
 })
 
+router.get('/validate', (req: Request, res: Response) => {
+  if (req.app.locals.authorId) {
+    return Promise.resolve(req.app.locals.author)
+      .sendSuccessResponse(res)
+  }
+  return Promise.reject('')
+    .sendFailureResponseWithNoError(res)
+})
+
 router.get('/:authorId', (req: Request, res: Response) => {
   return authorController.getByAuthorId(req.params.authorId as string)
     .sendSuccessResponse(res)

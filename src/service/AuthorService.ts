@@ -5,6 +5,7 @@ import type { AuthorModelType, TokenModelType } from '../models'
 import { IdGeneratorService, TokenService } from './index'
 import BadRequestError from '../exceptions/BadRequestError'
 import { ErrorCode } from '../exceptions'
+import '../utils/extensions'
 
 class AuthorService {
   private readonly authorRepository: AuthorRepository
@@ -19,6 +20,8 @@ class AuthorService {
 
   getAllByIds(authorIds: string[]): Promise<AuthorModelType[]> {
     return this.authorRepository.getAllByAuthorIds(authorIds)
+      .logOnSuccess('Successfully find authors by authorIds', {}, { authorIds })
+      .logOnError('', 'Failed to find authors by authorIds', {}, { authorIds })
   }
 
   getAuthorByAuthorId(authorId: string): Promise<AuthorModelType> {
@@ -37,7 +40,6 @@ class AuthorService {
     return this.authorRepository.findByEmail(email)
       .logOnError('', 'Failed to find author by email')
       .then((author: AuthorModelType) => {
-        console.log(password, author.password)
         return bcrypt.compare(password, author.password)
           .then((match) => {
             if (!match) {
@@ -49,6 +51,13 @@ class AuthorService {
       })
       .catch(() => {
         throw new BadRequestError(ErrorCode.BLOG_0101)
+      })
+  }
+
+  getAuthorByToken(tokenString: string): Promise<AuthorModelType> {
+    return this.tokenService.validate(tokenString)
+      .then((token: TokenModelType) => {
+        return this.authorRepository.findByAuthorId(token.authorId)
       })
   }
 }

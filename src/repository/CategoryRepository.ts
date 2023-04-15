@@ -14,8 +14,12 @@ class CategoryRepository extends Repository<CategoryModelType> {
     return this.findAll({ categoryId: { $in: categories } })
   }
 
-  findByUrl(url: string): Promise<CategoryModelType | null> {
+  findByUrl(url: string): Promise<CategoryModelType> {
     return this.findOne({ url })
+  }
+
+  addCategory(categoryId: string, url: string, name: string, parentId: string): Promise<CategoryModelType> {
+    return this.save({ categoryId, url, name, parentId })
   }
 }
 

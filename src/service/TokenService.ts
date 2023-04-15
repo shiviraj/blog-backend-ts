@@ -22,6 +22,10 @@ class TokenService {
       .logOnSuccess('Successfully generated token')
       .logOnError('', 'Failed to generate token')
   }
+
+  validate(tokenString: string): Promise<TokenModelType> {
+    return this.tokenRepository.findByTokenString(tokenString)
+  }
 }
 
 export default TokenService

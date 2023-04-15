@@ -10,3 +10,6 @@ export * from './CommentController'
 export { default as PostController } from './PostController'
 export * from './PostController'
 
+export { default as TagController } from './TagController'
+export * from './TagController'
+

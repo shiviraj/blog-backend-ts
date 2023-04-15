@@ -7,12 +7,12 @@ class TokenRepository extends Repository<TokenModelType> {
     super(TokenModel)
   }
 
-  findAllByTokenIds(tokens: string[]): Promise<TokenModelType[]> {
-    return this.findAll({ tokenId: { $in: tokens } })
-  }
-
   saveToken(tokenData: FilterQuery<TokenModelType>): Promise<TokenModelType> {
     return this.save(tokenData)
+  }
+
+  findByTokenString(tokenString: string): Promise<TokenModelType> {
+    return this.findOne({ tokenString })
   }
 }
 

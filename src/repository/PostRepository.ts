@@ -61,6 +61,29 @@ class PostRepository extends Repository<PostModelType> {
     return { postCount: count, pageCount: Math.ceil(count / POST_LIMIT) }
   }
 
+  findAllByAuthorId(authorId: string): Promise<PostModelType[]> {
+    return this.findAll({ authorId })
+  }
+
+  saveNewPost(authorId: string, postId: string): Promise<PostModelType> {
+    return this.save({ authorId, postId, url: postId })
+  }
+
+  findByPostIdAndAuthorId(postId: string, authorId: string): Promise<PostModelType> {
+    return this.findOne({ postId, authorId })
+  }
+
+  updatePost(post: PostModelType): Promise<UpdateWriteOpResult> {
+    return this.updateOne({ postId: post.postId }, post)
+  }
+
+  updatePostByPostIdAndAuthorId(post: PostModelType, postId: string, authorId: string): Promise<UpdateWriteOpResult> {
+    return this.updateOne({ authorId, postId }, post)
+  }
+
+  findByUrl(url: string): Promise<PostModelType> {
+    return this.findOne({ url })
+  }
 }
 
 export default PostRepository

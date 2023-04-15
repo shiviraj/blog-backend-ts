@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import express from 'express'
+import express, { NextFunction } from 'express'
 import '../utils/extensions'
 import { categoryController, postController } from './controllers'
 
@@ -25,6 +25,19 @@ router.get('/:categoryUrl', (req: Request, res: Response) => {
 
 router.get('/:categoryUrl/page/:page', (req: Request, res: Response) => {
   return postController.getPostsByCategoryUrl(req.params.categoryUrl as string, Number(req.params.page))
+    .sendSuccessResponse(res)
+    .sendFailureResponseWithNoError(res)
+})
+
+router.use((req: Request, res: Response, next: NextFunction) => {
+  if (req.app.locals.authorId) {
+    return next()
+  }
+  return res.status(401).send({ errorMessage: 'Unauthorized user' })
+})
+
+router.post('', (req: Request, res: Response) => {
+  return categoryController.addNewCategory(req.body.name as string, req.body.parentCategory as string)
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })

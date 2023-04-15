@@ -13,9 +13,9 @@ declare global {
 
     sendFailureResponseWithNoError(response: Response, statusCode?: number, data?: Record<string, unknown>): void
 
-    logOnSuccess<D extends Record<string, unknown>>(message: string, data?: D): Promise<T>
+    logOnSuccess<D extends Record<string, unknown>>(message: string, data?: D, additionalData?: D, searchableFields?: D): Promise<T>
 
-    logOnError<D extends Record<string, unknown>>(errorCode: string, errorMessage: string, data?: D): Promise<T>
+    logOnError<D extends Record<string, unknown>>(errorCode: string, errorMessage: string, data?: D, additionalData?: D, searchableFields?: D): Promise<T>
   }
 }
 
@@ -42,16 +42,16 @@ Promise.prototype.sendFailureResponseWithNoError = function <T>(this: Promise<T>
   })
 }
 
-Promise.prototype.logOnSuccess = function <T, D extends Record<string, unknown>>(this: Promise<T>, message: string, data?: D): Promise<T> {
+Promise.prototype.logOnSuccess = function <T, D extends Record<string, unknown>>(this: Promise<T>, message: string, data?: D, additionalData?: D, searchableFields?: D): Promise<T> {
   return this.then((param: T) => {
-    logger.info(message, data)
+    logger.info(message, data, additionalData, searchableFields)
     return param
   })
 }
 
-Promise.prototype.logOnError = function <T, D extends Record<string, unknown>>(this: Promise<T>, errorCode: string, errorMessage: string, data?: D): Promise<T> {
+Promise.prototype.logOnError = function <T, D extends Record<string, unknown>>(this: Promise<T>, errorCode: string, errorMessage: string, data?: D, additionalData?: D, searchableFields?: D): Promise<T> {
   return this.catch((error: Error) => {
-    logger.error(errorCode, errorMessage, error, data)
+    logger.error(errorCode, errorMessage, error, data, additionalData, searchableFields)
     throw error
   })
 }

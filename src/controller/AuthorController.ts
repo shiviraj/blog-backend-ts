@@ -27,6 +27,11 @@ class AuthorController {
     return this.authorService.login(email, password)
       .then((token: TokenModelType) => ({ token: token.tokenString }))
   }
+
+  getAuthorByToken(token: string): Promise<Author> {
+    return this.authorService.getAuthorByToken(token)
+      .then(buildAuthor)
+  }
 }
 
 export default AuthorController

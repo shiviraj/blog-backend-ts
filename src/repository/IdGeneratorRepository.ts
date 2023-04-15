@@ -4,14 +4,20 @@ import { UpdateWriteOpResult } from 'mongoose'
 
 export type IdType = { name: string, length: number }
 type SequenceIdType = {
+  TAG: IdType
+  CATEGORY: IdType
+  POST: IdType
   TOKEN: IdType
   VISITOR: IdType
   COMMENT: IdType
 }
 export const SequenceId: SequenceIdType = {
+  CATEGORY: { name: 'CATEGORY', length: 5 },
+  COMMENT: { name: 'Comment', length: 8 },
+  POST: { name: 'POST', length: 10 },
+  TAG: { name: 'TAG', length: 8 },
   TOKEN: { name: 'TOKEN', length: 16 },
-  VISITOR: { name: 'Visitor', length: 16 },
-  COMMENT: { name: 'Comment', length: 8 }
+  VISITOR: { name: 'Visitor', length: 16 }
 }
 
 class IdGeneratorRepository extends Repository<IdSequenceModelType> {
