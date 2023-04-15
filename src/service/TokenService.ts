@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken'
-import { SequenceId, TokenRepository } from '../repository'
-import { IdGeneratorService } from './index'
+import type { TokenRepository } from '../repository'
+import { SequenceId } from '../repository'
+import type { IdGeneratorService } from './index'
 import { JWT_SECRET } from '../config'
-import { TokenModelType } from '../models'
+import type { TokenModelType } from '../models'
 
 class TokenService {
   private readonly tokenRepository: TokenRepository

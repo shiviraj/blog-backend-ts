@@ -1,8 +1,14 @@
-import { CommentRepository, SequenceId } from '../repository'
-import IdGeneratorService from './IdGeneratorService'
-import { CommentModelType } from '../models'
+import type { CommentRepository} from '../repository'
+import { SequenceId } from '../repository'
+import type IdGeneratorService from './IdGeneratorService'
+import type { CommentModelType, CommentStatus } from '../models'
+import type { UpdateWriteOpResult } from 'mongoose'
 
-export type CommentInputType = { user: { name: string, email: string, userId?: string }, message: string, parentId?: string }
+export type CommentInputType = {
+  user: { name: string, email: string, userId?: string },
+  message: string,
+  parentId?: string
+}
 
 class CommentService {
   private readonly commentRepository: CommentRepository
@@ -43,6 +49,20 @@ class CommentService {
         return this.commentRepository.updateLikesByCommentId(likes, commentId)
           .then(() => ({ likes }))
       })
+  }
+
+  getAllCommentsByPostIds(postIds: string[]): Promise<CommentModelType[]> {
+    return this.commentRepository.findAllByPostIds(postIds)
+  }
+
+  getCommentByCommentId(commentId: string): Promise<CommentModelType> {
+    return this.commentRepository.findByCommentId(commentId)
+  }
+
+  updateStatusByCommentId(status: CommentStatus, commentId: string): Promise<UpdateWriteOpResult> {
+    return this.commentRepository.updateStatusByCommentId(status, commentId)
+      .logOnSuccess('Successfully updated comment status by commentId', {}, { commentId, status })
+      .logOnError('', 'Failed to update comment status by commentId', {}, { commentId, status })
   }
 }
 

@@ -1,6 +1,7 @@
 import Repository from './Repository'
-import { TokenModel, TokenModelType } from '../models'
-import { FilterQuery } from 'mongoose'
+import type { TokenModelType } from '../models'
+import { TokenModel } from '../models'
+import type { FilterQuery } from 'mongoose'
 
 class TokenRepository extends Repository<TokenModelType> {
   constructor() {

@@ -1,4 +1,4 @@
-import { AuthorModelType } from '../models'
+import type { AuthorModelType } from '../models'
 
 export interface Author {
   profile: string

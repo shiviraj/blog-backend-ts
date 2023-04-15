@@ -1,10 +1,10 @@
 import type { PostRepository } from '../repository'
 import { SequenceId } from '../repository'
 import type { AuthorModelType, CategoryModelType, CommentModelType, PostModelType, TagModelType } from '../models'
-import { PostCount } from '../dto'
+import type { PostCount } from '../dto'
 import { DataNotFoundError } from '../exceptions'
-import { AuthorService, CategoryService, CommentService, IdGeneratorService, TagService } from './index'
-import { UpdateWriteOpResult } from 'mongoose'
+import type { AuthorService, CategoryService, CommentService, IdGeneratorService, TagService } from './index'
+import type { UpdateWriteOpResult } from 'mongoose'
 
 class PostService {
   private readonly postRepository: PostRepository
@@ -23,7 +23,7 @@ class PostService {
     this.idGeneratorService = idGeneratorService
   }
 
-  getPagePosts(page: number): Promise<{ post: PostModelType; author: AuthorModelType; commentsCount: number }[]> {
+  getPagePosts(page: number): Promise<Array<{ post: PostModelType; author: AuthorModelType; commentsCount: number }>> {
     return this.postRepository.findAllByPageAndVisibilityAndPostStatus(page, 'PUBLIC', 'PUBLISH')
       .then((posts) => this.getPostsWithAuthorAndCommentCount(posts))
   }
@@ -59,11 +59,11 @@ class PostService {
       })
   }
 
-  getPostsByCategoryUrl(categoryUrl: string, page: number): Promise<{
+  getPostsByCategoryUrl(categoryUrl: string, page: number): Promise<Array<{
     post: PostModelType;
     author: AuthorModelType;
     commentsCount: number
-  }[]> {
+  }>> {
     return this.getCategoryByCategoryUrl(categoryUrl)
       .then((category: CategoryModelType) => {
         return this.postRepository.findAllByCategoryAndPostStatusAndVisibility(category.categoryId, 'PUBLISH', 'PUBLIC', page)
@@ -75,11 +75,11 @@ class PostService {
     return this.postRepository.countByAuthorIdAndPostStatusAndVisibility(authorId, 'PUBLISH', 'PUBLIC')
   }
 
-  getPostsByAuthorId(authorId: string, page: number): Promise<{
+  getPostsByAuthorId(authorId: string, page: number): Promise<Array<{
     post: PostModelType;
     author: AuthorModelType;
     commentsCount: number
-  }[]> {
+  }>> {
     return this.postRepository.findAllByAuthorIdAndPostStatusAndVisibility(authorId, 'PUBLISH', 'PUBLIC', page)
       .then((posts) => this.getPostsWithAuthorAndCommentCount(posts))
   }
@@ -103,11 +103,11 @@ class PostService {
       })
   }
 
-  private async getPostsWithAuthorAndCommentCount(posts: PostModelType[]): Promise<{
+  private async getPostsWithAuthorAndCommentCount(posts: PostModelType[]): Promise<Array<{
     post: PostModelType;
     author: AuthorModelType,
     commentsCount: number
-  }[]> {
+  }>> {
     const authorIds = posts.reduce<string[]>((authorIds, post) => {
       if (!authorIds.includes(post.authorId)) {
         return authorIds.concat(post.authorId)
@@ -168,6 +168,12 @@ class PostService {
     return this.postRepository.findByUrl(url)
       .then((post) => post.postId === postId)
       .catch(() => true)
+  }
+
+  isValidAuthor(postId: string, authorId: string): Promise<boolean> {
+    return this.postRepository.findByPostId(postId)
+      .then((post) => post.authorId === authorId)
+      .catch(() => false)
   }
 }
 

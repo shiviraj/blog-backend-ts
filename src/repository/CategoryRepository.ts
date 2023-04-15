@@ -1,5 +1,6 @@
 import Repository from './Repository'
-import { CategoryModel, CategoryModelType } from '../models'
+import type { CategoryModelType } from '../models'
+import { CategoryModel } from '../models'
 
 class CategoryRepository extends Repository<CategoryModelType> {
   constructor() {

@@ -1,8 +1,8 @@
-import { IdGeneratorRepository, IdType } from '../repository'
+import type { IdGeneratorRepository, IdType } from '../repository'
 import { Integer } from '../utils/extensions/number'
 
 class IdGeneratorService {
-  private idGeneratorRepository: IdGeneratorRepository
+  private readonly idGeneratorRepository: IdGeneratorRepository
 
   constructor(idGeneratorRepository: IdGeneratorRepository) {
     this.idGeneratorRepository = idGeneratorRepository

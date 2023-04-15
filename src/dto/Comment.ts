@@ -1,4 +1,4 @@
-import { CommentModelType } from '../models'
+import type { CommentModelType } from '../models'
 
 export interface Comment {
   user: { name: string, userId: string }

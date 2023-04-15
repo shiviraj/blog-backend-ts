@@ -1,5 +1,6 @@
-import { AuthorModelType, PostModelType } from '../models'
-import { Author, buildAuthor } from './Author'
+import type { AuthorModelType, PostModelType } from '../models'
+import type { Author} from './Author'
+import { buildAuthor } from './Author'
 
 export type PostCount = { pageCount: number; postCount: number }
 

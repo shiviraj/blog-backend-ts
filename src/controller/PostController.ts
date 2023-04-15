@@ -1,6 +1,7 @@
 import type PostService from '../service/PostService'
-import { buildPostDetails, buildPostSummary, PostCount, PostDetails, PostSummary } from '../dto'
-import { AuthorModelType, PostModelType } from '../models'
+import type { PostCount, PostDetails, PostSummary } from '../dto'
+import { buildPostDetails, buildPostSummary } from '../dto'
+import type { AuthorModelType, PostModelType } from '../models'
 
 class PostController {
   private readonly postService: PostService
@@ -9,7 +10,7 @@ class PostController {
     this.postService = postService
   }
 
-  getPosts(page: string): Promise<Array<PostSummary>> {
+  getPosts(page: string): Promise<PostSummary[]> {
     return this.postService.getPagePosts(Number(page))
       .then(this.buildPostSummary)
   }
@@ -44,11 +45,11 @@ class PostController {
       .then(this.buildPostSummary)
   }
 
-  private buildPostSummary(postAndAuthors: {
+  private buildPostSummary(postAndAuthors: Array<{
     post: PostModelType;
     author: AuthorModelType,
     commentsCount: number
-  }[]): PostSummary[] {
+  }>): PostSummary[] {
     return postAndAuthors.map(({ post, author, commentsCount }) => buildPostSummary(post, author, commentsCount))
   }
 
@@ -83,6 +84,13 @@ class PostController {
       .then(status => ({ status }))
   }
 
+  getAllCommentsOnAuthorPosts(authorId: string): Promise<PostModelType[]> {
+    return this.postService.getAllByAuthorId(authorId)
+  }
+
+  isValidAuthor(postId: string, authorId: string): Promise<boolean> {
+    return this.postService.isValidAuthor(postId, authorId)
+  }
 }
 
 export default PostController

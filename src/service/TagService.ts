@@ -1,6 +1,7 @@
-import { SequenceId, TagRepository } from '../repository'
-import { TagModelType } from '../models'
-import { IdGeneratorService } from './index'
+import type { TagRepository } from '../repository'
+import { SequenceId } from '../repository'
+import type { TagModelType } from '../models'
+import type { IdGeneratorService } from './index'
 import { capitalized } from '../utils'
 
 class TagService {

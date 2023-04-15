@@ -1,10 +1,10 @@
-import { ErrorType } from './ErrorCodes'
+import type { ErrorType } from './ErrorCodes'
 
 class BadRequestError extends Error {
-  private errorCode: string
-  private errorMessage: string
+  private readonly errorCode: string
+  private readonly errorMessage: string
 
-  constructor(error: ErrorType | string, errorMessage: string = 'Invalid Request') {
+  constructor(error: ErrorType | string, errorMessage = 'Invalid Request') {
     if (typeof error === 'string') {
       super(errorMessage)
       this.errorCode = error

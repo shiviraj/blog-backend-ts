@@ -1,9 +1,10 @@
-import CategoryService from '../service/CategoryService'
-import { CategoryModelType } from '../models'
-import { buildCategory, Category } from '../dto'
+import type CategoryService from '../service/CategoryService'
+import type { CategoryModelType } from '../models'
+import type { Category } from '../dto'
+import { buildCategory } from '../dto'
 
 class CategoryController {
-  private categoryService: CategoryService
+  private readonly categoryService: CategoryService
 
   constructor(categoryService: CategoryService) {
     this.categoryService = categoryService

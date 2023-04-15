@@ -5,7 +5,7 @@ import './controller'
 import router from './router'
 import { logger } from './logger'
 import { authorController } from './routers/controllers'
-import { Author } from './dto'
+import type { Author } from './dto'
 
 const app = express()
 app.use(express.json())
@@ -34,13 +34,15 @@ app.get('/', (_req: Request, res: Response) => {
 
 app.use(async (req: Request, res: Response, next: NextFunction) => {
   if (req.headers.authorization) {
-    return await authorController.getAuthorByToken(req.headers.authorization)
+    await authorController.getAuthorByToken(req.headers.authorization)
       .then((author: Author) => {
         req.app.locals.authorId = author.authorId
         req.app.locals.author = author
         next()
       })
-      .catch(() => next())
+      .catch(() => {
+        next() 
+      }); return
   }
   next()
 })

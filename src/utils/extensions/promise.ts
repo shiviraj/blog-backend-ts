@@ -1,5 +1,5 @@
 import type { Response } from 'express'
-import { Error } from 'mongoose'
+import type { Error } from 'mongoose'
 import BadRequestError from '../../exceptions/BadRequestError'
 import { logger } from '../../logger'
 

@@ -1,6 +1,7 @@
 import Repository from './Repository'
-import { IdSequenceModel, IdSequenceModelType } from '../models'
-import { UpdateWriteOpResult } from 'mongoose'
+import type { IdSequenceModelType } from '../models'
+import { IdSequenceModel } from '../models'
+import type { UpdateWriteOpResult } from 'mongoose'
 
 export type IdType = { name: string, length: number }
 type SequenceIdType = {

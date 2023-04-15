@@ -1,5 +1,6 @@
 import type TagService from '../service/TagService'
-import { buildTag, Tag } from '../dto'
+import type { Tag } from '../dto'
+import { buildTag } from '../dto'
 
 class TagController {
   private readonly tagService: TagService

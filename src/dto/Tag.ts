@@ -1,4 +1,4 @@
-import { TagModelType } from '../models'
+import type { TagModelType } from '../models'
 
 export interface Tag {
   tagId: string

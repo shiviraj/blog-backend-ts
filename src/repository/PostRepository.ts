@@ -1,8 +1,8 @@
 import Repository from './Repository'
 import type { PostModelType, PostStatus, Visibility } from '../models'
 import { PostModel } from '../models'
-import { PostCount } from '../dto'
-import { UpdateWriteOpResult } from 'mongoose'
+import type { PostCount } from '../dto'
+import type { UpdateWriteOpResult } from 'mongoose'
 
 const POST_LIMIT = 10
 

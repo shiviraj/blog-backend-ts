@@ -1,9 +1,10 @@
-import { AuthorService } from '../service'
-import { Author, buildAuthor } from '../dto'
-import { AuthorModelType, TokenModelType } from '../models'
+import type { AuthorService } from '../service'
+import type { Author} from '../dto'
+import { buildAuthor } from '../dto'
+import type { AuthorModelType, TokenModelType } from '../models'
 
 class AuthorController {
-  private authorService: AuthorService
+  private readonly authorService: AuthorService
 
   constructor(authorService: AuthorService) {
     this.authorService = authorService

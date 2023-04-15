@@ -49,7 +49,7 @@ export const logger = {
     })
   },
 
-  error<D extends Record<string, unknown>>(errorCode: string | ErrorType, errorMessage: string = '', error?: Error, data?: D, additionalData?: D, searchableFields?: D): void {
+  error<D extends Record<string, unknown>>(errorCode: string | ErrorType, errorMessage = '', error?: Error, data?: D, additionalData?: D, searchableFields?: D): void {
     let code: string, message: string
     if (typeof errorCode === 'string') {
       code = errorCode

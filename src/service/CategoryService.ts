@@ -1,6 +1,7 @@
-import { CategoryRepository, SequenceId } from '../repository'
-import { CategoryModelType } from '../models'
-import { IdGeneratorService } from './index'
+import type { CategoryRepository} from '../repository'
+import { SequenceId } from '../repository'
+import type { CategoryModelType } from '../models'
+import type { IdGeneratorService } from './index'
 import { capitalized } from '../utils'
 
 class CategoryService {

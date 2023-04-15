@@ -1,5 +1,6 @@
 import Repository from './Repository'
-import { TagModel, TagModelType } from '../models'
+import type { TagModelType } from '../models'
+import { TagModel } from '../models'
 
 class TagRepository extends Repository<TagModelType> {
   constructor() {

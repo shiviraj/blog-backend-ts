@@ -1,8 +1,12 @@
-import { AuthorModelType, CategoryModelType, CommentModelType, PostModelType, TagModelType } from '../models'
-import { Author, buildAuthor } from './Author'
-import { buildTag, Tag } from './Tag'
-import { buildCategory, Category } from './Category'
-import { buildComment, Comment } from './Comment'
+import type { AuthorModelType, CategoryModelType, CommentModelType, PostModelType, TagModelType } from '../models'
+import type { Author} from './Author'
+import { buildAuthor } from './Author'
+import type { Tag } from './Tag'
+import { buildTag } from './Tag'
+import type { Category } from './Category'
+import { buildCategory } from './Category'
+import type { Comment } from './Comment'
+import { buildComment } from './Comment'
 
 export interface PostDetails {
   postId: string,
