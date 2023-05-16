@@ -13,6 +13,9 @@ export * from './IdGeneratorService'
 export { default as PostService } from './PostService'
 export * from './PostService'
 
+export { default as SiteService } from './SiteService'
+export * from './SiteService'
+
 export { default as TagService } from './TagService'
 export * from './TagService'
 

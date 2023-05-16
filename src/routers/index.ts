@@ -10,6 +10,9 @@ export * from './commentRouter'
 export { default as postRouter } from './postRouter'
 export * from './postRouter'
 
+export { default as siteRouter } from './siteRouter'
+export * from './siteRouter'
+
 export { default as tagRouter } from './tagRouter'
 export * from './tagRouter'
 

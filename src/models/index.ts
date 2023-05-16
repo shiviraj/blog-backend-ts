@@ -13,6 +13,9 @@ export * from './IdSequence'
 export { default as PostModel } from './Post'
 export * from './Post'
 
+export { default as SiteModel } from './Site'
+export * from './Site'
+
 export { default as TagModel } from './Tag'
 export * from './Tag'
 
