@@ -18,6 +18,10 @@ class TagRepository extends Repository<TagModelType> {
   saveTag(tagId: string, url: string, name: string): Promise<TagModelType> {
     return this.save({ tagId, name, url })
   }
+
+  findByUrl(url: string): Promise<TagModelType> {
+    return this.findOne({ url })
+  }
 }
 
 export default TagRepository

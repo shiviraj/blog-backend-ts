@@ -6,15 +6,17 @@ export interface AuthorModelType extends Document {
   displayName?: string
   profile: string
   name: string
-  authorId: string
+  authorId: string,
+  username: string
 }
 
 const schema = new Schema<AuthorModelType, Model<AuthorModelType>>({
-  authorId: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  name: { type: String, required: true },
-  profile: { type: String },
-  displayName: { type: String }
+  authorId: { type: String, required: true, unique: true, trim: true },
+  password: { type: String, required: true, trim: true },
+  name: { type: String, required: true, trim: true },
+  profile: { type: String, trim: true },
+  displayName: { type: String, trim: true },
+  username: { type: String, required: true, unique: true, trim: true }
 })
 
 const AuthorModel = model<AuthorModelType, Model<AuthorModelType>>('Author', schema)

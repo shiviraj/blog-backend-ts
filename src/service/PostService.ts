@@ -175,6 +175,35 @@ class PostService {
       .then((post) => post.authorId === authorId)
       .catch(() => false)
   }
+
+  getPostsCountByTagUrl(tagUrl: string): Promise<PostCount> {
+    return this.getTagByTagUrl(tagUrl)
+      .then((tag: TagModelType) => {
+        return this.postRepository.countByTagAndPostStatusAndVisibility(tag.tagId, 'PUBLISH', 'PUBLIC')
+      })
+  }
+
+  private getTagByTagUrl(tagUrl: string): Promise<TagModelType> {
+    return this.tagService.getTagByUrl(tagUrl)
+      .then((tag: TagModelType) => {
+        if (tag === null) {
+          throw new DataNotFoundError('', 'Tag Not Found')
+        }
+        return tag
+      })
+  }
+
+  getPostsByTagUrl(tagUrl: string, page: number): Promise<Array<{
+    post: PostModelType;
+    author: AuthorModelType;
+    commentsCount: number
+  }>> {
+    return this.getTagByTagUrl(tagUrl)
+      .then((tag: TagModelType) => {
+        return this.postRepository.findAllByTagAndPostStatusAndVisibility(tag.tagId, 'PUBLISH', 'PUBLIC', page)
+      })
+      .then((posts) => this.getPostsWithAuthorAndCommentCount(posts))
+  }
 }
 
 export default PostService

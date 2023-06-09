@@ -33,6 +33,10 @@ class AuthorController {
     return this.authorService.getAuthorByToken(token)
       .then(buildAuthor)
   }
+
+  getByUsername(username: string): Promise<AuthorModelType> {
+    return this.authorService.getAuthorByUsername(username)
+  }
 }
 
 export default AuthorController

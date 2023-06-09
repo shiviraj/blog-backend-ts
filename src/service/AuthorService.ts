@@ -60,6 +60,10 @@ class AuthorService {
         return this.authorRepository.findByAuthorId(token.authorId)
       })
   }
+
+  getAuthorByUsername(username: string): Promise<AuthorModelType> {
+    return this.authorRepository.findByUsername(username)
+  }
 }
 
 export default AuthorService

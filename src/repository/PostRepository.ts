@@ -84,6 +84,16 @@ class PostRepository extends Repository<PostModelType> {
   findByUrl(url: string): Promise<PostModelType> {
     return this.findOne({ url })
   }
+
+  countByTagAndPostStatusAndVisibility(tagId: string, postStatus: PostStatus, visibility: Visibility): Promise<PostCount> {
+    return this.count({ tagId, postStatus, visibility })
+      .then((count: number) => this.getPostsCount(count))
+  }
+
+  findAllByTagAndPostStatusAndVisibility(tagId: string, postStatus: PostStatus, visibility: Visibility, page: number): Promise<PostModelType[]> {
+    const query = { tags: tagId, postStatus, visibility }
+    return this.findAllWithPage(query, this.getSkip(page), POST_LIMIT, { lastUpdateOn: -1 })
+  }
 }
 
 export default PostRepository

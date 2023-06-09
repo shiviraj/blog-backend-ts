@@ -84,12 +84,17 @@ class PostController {
       .then(status => ({ status }))
   }
 
-  getAllCommentsOnAuthorPosts(authorId: string): Promise<PostModelType[]> {
-    return this.postService.getAllByAuthorId(authorId)
-  }
-
   isValidAuthor(postId: string, authorId: string): Promise<boolean> {
     return this.postService.isValidAuthor(postId, authorId)
+  }
+
+  getCountByTagUrl(tagUrl: string): Promise<PostCount> {
+    return this.postService.getPostsCountByTagUrl(tagUrl)
+  }
+
+  getPostsByTagUrl(tagUrl: string, page: number): Promise<PostSummary[]> {
+    return this.postService.getPostsByTagUrl(tagUrl, page)
+      .then(this.buildPostSummary)
   }
 }
 

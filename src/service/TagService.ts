@@ -30,6 +30,10 @@ class TagService {
       .logOnSuccess('Successfully added new tag', {}, { name })
       .logOnError('', 'Failed to add new tag', {}, { name })
   }
+
+  getTagByUrl(tagUrl: string): Promise<TagModelType> {
+    return this.tagRepository.findByUrl(tagUrl)
+  }
 }
 
 export default TagService

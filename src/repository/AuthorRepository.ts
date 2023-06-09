@@ -22,6 +22,10 @@ class AuthorRepository extends Repository<AuthorModelType> {
   findByEmail(email: string): Promise<AuthorModelType> {
     return this.findOne({ email })
   }
+
+  findByUsername(username: string): Promise<AuthorModelType> {
+    return this.findOne({ username })
+  }
 }
 
 export default AuthorRepository

@@ -17,8 +17,9 @@ router.get('/visitor', (_req: Request, res: Response) => {
     .sendFailureResponseWithNoError(res)
 })
 
-router.get('/:authorId/count', (req: Request, res: Response) => {
-  postController.getCountByAuthorId(req.params.authorId )
+router.get('/:username/count', (req: Request, res: Response) => {
+  authorController.getByUsername(req.params.username)
+    .then(author => postController.getCountByAuthorId(author.authorId))
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })
@@ -32,14 +33,15 @@ router.get('/validate', (req: Request, res: Response) => {
     .sendFailureResponseWithNoError(res)
 })
 
-router.get('/:authorId', (req: Request, res: Response) => {
-  authorController.getByAuthorId(req.params.authorId )
+router.get('/:username', (req: Request, res: Response) => {
+  authorController.getByUsername(req.params.username)
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })
 
-router.get('/:authorId/page/:page', (req: Request, res: Response) => {
-  postController.getPostsByAuthorId(req.params.authorId, Number(req.params.page))
+router.get('/:username/page/:page', (req: Request, res: Response) => {
+  authorController.getByUsername(req.params.username)
+    .then(author => postController.getPostsByAuthorId(author.authorId, Number(req.params.page)))
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })

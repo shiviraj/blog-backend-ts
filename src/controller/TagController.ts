@@ -1,6 +1,7 @@
 import type TagService from '../service/TagService'
 import type { Tag } from '../dto'
 import { buildTag } from '../dto'
+import { TagModelType } from '../models'
 
 class TagController {
   private readonly tagService: TagService
@@ -17,6 +18,10 @@ class TagController {
   addNewTag(name: string): Promise<Tag> {
     return this.tagService.addNewTag(name)
       .then(buildTag)
+  }
+
+  getByTagUrl(tagUrl: string): Promise<TagModelType> {
+    return this.tagService.getTagByUrl(tagUrl)
   }
 }
 
