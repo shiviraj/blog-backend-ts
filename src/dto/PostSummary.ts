@@ -1,5 +1,5 @@
 import type { AuthorModelType, PostModelType } from '../models'
-import type { Author} from './Author'
+import type { Author } from './Author'
 import { buildAuthor } from './Author'
 
 export type PostCount = { pageCount: number; postCount: number }
@@ -17,7 +17,7 @@ export interface PostSummary {
   comments: number
 }
 
-const generateSummary = (post: PostModelType): string => {
+export const generateSummary = (post: PostModelType): string => {
   return post.publishedContent.blocks
     .filter(block => block.type === 'paragraph')
     .slice(0, 8)

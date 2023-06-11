@@ -9,7 +9,8 @@ export interface SiteModelType extends Document {
     name: string,
     url: string
   },
-  hostname: string
+  hostname: string,
+  metaOverviewImage: string
 }
 
 const schema = new Schema<SiteModelType, Model<SiteModelType>>({
@@ -20,7 +21,8 @@ const schema = new Schema<SiteModelType, Model<SiteModelType>>({
     name: { type: String },
     url: { type: String }
   },
-  hostname: { type: String }
+  hostname: { type: String },
+  metaOverviewImage: { type: String }
 })
 
 const SiteModel = model<SiteModelType, Model<SiteModelType>>('Site', schema)

@@ -10,7 +10,7 @@
     "start": "node dist",
     "eslint:check": "eslint .",
     "eslint:fix": "eslint . --fix",
-    "docker:push": "docker buildx build --platform=linux/arm64,linux/amd64 -t shiviraj/blog-backend:latest --push ."
+    "docker:push": "sh build.sh"
   },
   "keywords": [],
   "author": "",
