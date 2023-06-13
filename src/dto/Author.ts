@@ -5,7 +5,8 @@ export interface Author {
   displayName: string
   authorId: string
   name: string
-  username: string
+  username: string,
+  registeredAt: Date
 }
 
 export const buildAuthor = (author: AuthorModelType): Author => {
@@ -14,6 +15,7 @@ export const buildAuthor = (author: AuthorModelType): Author => {
     authorId: author.authorId,
     name: author.name,
     displayName: author.displayName ?? author.name,
-    username: author.username
+    username: author.username,
+    registeredAt: author.registeredAt
   }
 }

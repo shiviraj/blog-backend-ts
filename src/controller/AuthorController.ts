@@ -1,5 +1,5 @@
 import type { AuthorService } from '../service'
-import type { Author} from '../dto'
+import type { Author } from '../dto'
 import { buildAuthor } from '../dto'
 import type { AuthorModelType, TokenModelType } from '../models'
 
@@ -13,10 +13,6 @@ class AuthorController {
   getAllAuthors(): Promise<Author[]> {
     return this.authorService.getAllAuthors()
       .then((authors: AuthorModelType[]) => authors.map((author: AuthorModelType) => buildAuthor(author)))
-  }
-
-  getByAuthorId(authorId: string): Promise<AuthorModelType | null> {
-    return this.authorService.getAuthorByAuthorId(authorId)
   }
 
   createVisitorId(): Promise<{ visitorId: string }> {
