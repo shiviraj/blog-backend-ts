@@ -63,6 +63,9 @@ class PostRepository extends Repository<PostModelType> {
 
   findAllByAuthorId(authorId: string): Promise<PostModelType[]> {
     return this.findAll({ authorId })
+      .then(posts => {
+        return posts.sort((post1, post2) => Number(post2.postId) - Number(post1.postId))
+      })
   }
 
   saveNewPost(authorId: string, postId: string): Promise<PostModelType> {
