@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import type { AuthorRepository } from '../repository'
 import { SequenceId } from '../repository'
 import type { AuthorModelType, TokenModelType } from '../models'
