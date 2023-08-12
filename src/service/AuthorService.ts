@@ -19,9 +19,20 @@ class AuthorService {
   }
 
   getAllByIds(authorIds: string[]): Promise<AuthorModelType[]> {
-    return this.authorRepository.getAllByAuthorIds(authorIds)
-      .logOnSuccess('Successfully find authors by authorIds', {}, { authorIds })
-      .logOnError('', 'Failed to find authors by authorIds', {}, { authorIds })
+    return this.authorRepository
+      .getAllByAuthorIds(authorIds)
+      .logOnSuccess({
+        message: 'Successfully find authors by authorIds',
+        additionalData: {
+          authorIds
+        }
+      })
+      .logOnError({
+        errorMessage: 'Failed to find authors by authorIds',
+        additionalData: {
+          authorIds
+        }
+      })
   }
 
   getAuthorByAuthorId(authorId: string): Promise<AuthorModelType> {
@@ -37,17 +48,19 @@ class AuthorService {
   }
 
   login(email: string, password: string): Promise<TokenModelType> {
-    return this.authorRepository.findByEmail(email)
-      .logOnError('', 'Failed to find author by email')
+    return this.authorRepository
+      .findByEmail(email)
+      .logOnError({ errorMessage: 'Failed to find author by email' })
       .then((author: AuthorModelType) => {
-        return bcrypt.compare(password, author.password)
-          .then((match) => {
+        return bcrypt
+          .compare(password, author.password)
+          .then(match => {
             if (!match) {
               throw new BadRequestError(ErrorCode.BLOG_0101)
             }
             return this.tokenService.generate(author.authorId)
           })
-          .logOnError('', 'Failed to compare the password')
+          .logOnError({ errorMessage: 'Failed to compare the password' })
       })
       .catch(() => {
         throw new BadRequestError(ErrorCode.BLOG_0101)
@@ -55,10 +68,9 @@ class AuthorService {
   }
 
   getAuthorByToken(tokenString: string): Promise<AuthorModelType> {
-    return this.tokenService.validate(tokenString)
-      .then((token: TokenModelType) => {
-        return this.authorRepository.findByAuthorId(token.authorId)
-      })
+    return this.tokenService.validate(tokenString).then((token: TokenModelType) => {
+      return this.authorRepository.findByAuthorId(token.authorId)
+    })
   }
 
   getAuthorByUsername(username: string): Promise<AuthorModelType> {

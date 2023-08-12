@@ -3,7 +3,7 @@ import type { IdSequenceModelType } from '../models'
 import { IdSequenceModel } from '../models'
 import type { UpdateWriteOpResult } from 'mongoose'
 
-export type IdType = { name: string, length: number }
+export type IdType = { name: string; length: number }
 type SequenceIdType = {
   TAG: IdType
   CATEGORY: IdType
@@ -37,7 +37,6 @@ class IdGeneratorRepository extends Repository<IdSequenceModelType> {
   updateSequenceByName(sequence: number, name: string): Promise<UpdateWriteOpResult> {
     return this.updateOne({ name }, { sequence })
   }
-
 }
 
 export default IdGeneratorRepository

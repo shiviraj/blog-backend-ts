@@ -8,13 +8,16 @@ import type { CommentStatus } from '../models'
 const router = express.Router()
 
 router.post('/:postId', (req: Request, res: Response) => {
-  commentController.addComment(req.params.postId, req.body as CommentInputType)
+  commentController
+    .addComment(req.params.postId, req.body as CommentInputType)
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })
 
 router.put('/:commentId', (req: Request, res: Response) => {
-  commentController.updateLikeOnComment(req.params.commentId, req.body.visitorId as string)
+  const { visitorId } = req.body as { visitorId: string }
+  commentController
+    .updateLikeOnComment(req.params.commentId, visitorId)
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })
@@ -22,13 +25,16 @@ router.put('/:commentId', (req: Request, res: Response) => {
 router.use(auth)
 
 router.get('', (req: Request, res: Response) => {
-  commentController.getAllCommentsOnAuthorPosts(req.app.locals.authorId as string)
+  commentController
+    .getAllCommentsOnAuthorPosts(req.app.locals.authorId as string)
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })
 
 router.put('/:commentId/update-status', (req: Request, res: Response) => {
-  commentController.updateStatus(req.params.commentId, req.app.locals.authorId as string, req.body.status as CommentStatus)
+  const { status } = req.body as { status: CommentStatus }
+  commentController
+    .updateStatus(req.params.commentId, req.app.locals.authorId as string, status)
     .sendSuccessResponse(res)
     .sendFailureResponseWithNoError(res)
 })

@@ -5,7 +5,7 @@ export interface Author {
   displayName: string
   authorId: string
   name: string
-  username: string,
+  username: string
   registeredAt: Date
 }
 

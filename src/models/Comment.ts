@@ -4,15 +4,14 @@ import { model, Schema } from 'mongoose'
 export type CommentStatus = 'APPROVED' | 'UNAPPROVED'
 
 export interface CommentModelType extends Document {
-
   commentId: string
-  user: { userId: string, name: string, email: string }
+  user: { userId: string; name: string; email: string }
   postId: string
   message: string
   status: CommentStatus
   commentedOn: Date
   likes: string[]
-  pinned: boolean,
+  pinned: boolean
   parentId?: string
 }
 

@@ -1,7 +1,8 @@
 import type { Document, Model } from 'mongoose'
 import { model, Schema } from 'mongoose'
+import { Integer } from '../utils/extensions'
 
-const SEVEN_DAYS = 7 * 24 * 60 * 60
+const TOKEN_EXPIRY_IN_SECONDS = 604800
 
 export interface TokenModelType extends Document {
   tokenId: string
@@ -16,7 +17,11 @@ const schema = new Schema<TokenModelType, Model<TokenModelType>>({
   authorId: { type: String },
   tokenString: { type: String },
   createdAt: { type: Date, default: new Date() },
-  expAt: { type: Date, default: new Date().setDate(new Date().getDate() + 7), expires: SEVEN_DAYS }
+  expAt: {
+    type: Date,
+    default: new Date().setDate(new Date().getDate() + Integer.SEVEN),
+    expires: TOKEN_EXPIRY_IN_SECONDS
+  }
 })
 
 const TokenModel = model<TokenModelType, Model<TokenModelType>>('Token', schema)

@@ -1,5 +1,13 @@
 import express from 'express'
-import { authorRouter,siteRouter, categoryRouter, commentRouter, postRouter, tagRouter, validatedPostRouter } from './routers'
+import {
+  authorRouter,
+  siteRouter,
+  categoryRouter,
+  commentRouter,
+  postRouter,
+  tagRouter,
+  validatedPostRouter
+} from './routers'
 
 const router = express.Router()
 router.use('/authors', authorRouter)

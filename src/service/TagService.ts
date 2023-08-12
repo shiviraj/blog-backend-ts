@@ -21,14 +21,21 @@ class TagService {
   }
 
   addNewTag(name: string): Promise<TagModelType> {
-    return this.idGeneratorService.generate(SequenceId.TAG)
-      .then((tagId) => {
+    return this.idGeneratorService
+      .generate(SequenceId.TAG)
+      .then(tagId => {
         const url = name.toLowerCase().split(' ').join('-').split('--').join('-')
-        const parsedName = name.toLowerCase().split(' ').map(partialName => capitalized(partialName)).join(' ').split('  ').join(' ')
+        const parsedName = name
+          .toLowerCase()
+          .split(' ')
+          .map(partialName => capitalized(partialName))
+          .join(' ')
+          .split('  ')
+          .join(' ')
         return this.tagRepository.saveTag(tagId, url, parsedName)
       })
-      .logOnSuccess('Successfully added new tag', {}, { name })
-      .logOnError('', 'Failed to add new tag', {}, { name })
+      .logOnSuccess({ message: 'Successfully added new tag', additionalData: { name } })
+      .logOnError({ errorMessage: 'Failed to add new tag', additionalData: { name } })
   }
 
   getTagByUrl(tagUrl: string): Promise<TagModelType> {

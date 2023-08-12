@@ -2,10 +2,10 @@ import type { Document, Model } from 'mongoose'
 import { model, Schema } from 'mongoose'
 
 export interface CategoryModelType extends Document {
-  parentId: string,
+  parentId: string
   categoryId: string
   name: string
-  url: string,
+  url: string
   createdAt: Date
 }
 

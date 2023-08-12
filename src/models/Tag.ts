@@ -4,7 +4,7 @@ import { model, Schema } from 'mongoose'
 export interface TagModelType extends Document {
   tagId: string
   name: string
-  url: string,
+  url: string
   createdAt: Date
 }
 

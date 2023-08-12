@@ -1,1 +1,3 @@
-export const capitalized = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1)
+import { Integer } from './extensions'
+
+export const capitalized = (text: string): string => text.charAt(Integer.ZERO).toUpperCase() + text.slice(Integer.ONE)

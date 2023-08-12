@@ -42,7 +42,14 @@ const authorService = new AuthorService(authorRepository, idGeneratorService, to
 const categoryService = new CategoryService(categoryRepository, idGeneratorService)
 const commentService = new CommentService(commentRepository, idGeneratorService)
 const tagService = new TagService(tagRepository, idGeneratorService)
-const postService = new PostService(postRepository, authorService, categoryService, tagService, commentService, idGeneratorService)
+const postService = new PostService(
+  postRepository,
+  authorService,
+  categoryService,
+  tagService,
+  commentService,
+  idGeneratorService
+)
 const siteService = new SiteService(siteRepository)
 
 export const authorController = new AuthorController(authorService)

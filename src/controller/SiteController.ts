@@ -1,5 +1,5 @@
 import type { SiteService } from '../service'
-import { SiteModelType } from '../models'
+import type { SiteModelType } from '../models'
 
 class SiteController {
   private readonly siteService: SiteService

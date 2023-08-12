@@ -21,20 +21,21 @@ class CommentController {
   }
 
   getAllCommentsOnAuthorPosts(authorId: string): Promise<CommentModelType[]> {
-    return this.postController.getAllPostsByAuthorId(authorId)
-      .then((posts) => posts.map(post => post.postId))
-      .then((postIds) => this.commentService.getAllCommentsByPostIds(postIds))
+    return this.postController
+      .getAllPostsByAuthorId(authorId)
+      .then(posts => posts.map(post => post.postId))
+      .then(postIds => this.commentService.getAllCommentsByPostIds(postIds))
   }
 
   updateStatus(commentId: string, authorId: string, commentStatus: CommentStatus): Promise<{ status: boolean }> {
-    return this.commentService.getCommentByCommentId(commentId)
-      .then((comment) => {
+    return this.commentService
+      .getCommentByCommentId(commentId)
+      .then(comment => {
         return this.postController.isValidAuthor(comment.postId, authorId)
       })
-      .then((status) => {
+      .then(status => {
         if (status) {
-          return this.commentService.updateStatusByCommentId(commentStatus, commentId)
-            .then(() => ({ status }))
+          return this.commentService.updateStatusByCommentId(commentStatus, commentId).then(() => ({ status }))
         }
         return { status }
       })

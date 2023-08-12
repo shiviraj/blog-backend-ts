@@ -1,8 +1,10 @@
 import type { NextFunction, Request, Response } from 'express'
+import { HttpStatus } from '../utils/extensions'
 
-export const auth = (req: Request, res: Response, next: NextFunction) => {
+export const auth = (req: Request, res: Response, next: NextFunction): void => {
   if (req.app.locals.authorId) {
-    next(); return
+    next()
+  } else {
+    res.status(HttpStatus.UNAUTHORIZED).send({ errorMessage: 'Unauthorized user' })
   }
-  return res.status(401).send({ errorMessage: 'Unauthorized user' })
 }

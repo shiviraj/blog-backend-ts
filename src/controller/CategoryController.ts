@@ -19,8 +19,7 @@ class CategoryController {
   }
 
   addNewCategory(name: string, parentId: string): Promise<Category> {
-    return this.categoryService.addNewCategory(name, parentId)
-      .then(buildCategory)
+    return this.categoryService.addNewCategory(name, parentId).then(buildCategory)
   }
 }
 

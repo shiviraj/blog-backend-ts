@@ -6,10 +6,10 @@ export interface SiteModelType extends Document {
   shortTitle: string
   tagline?: string
   developer: {
-    name: string,
+    name: string
     url: string
-  },
-  hostname: string,
+  }
+  hostname: string
   metaOverviewImage: string
 }
 

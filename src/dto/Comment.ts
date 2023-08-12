@@ -1,12 +1,12 @@
 import type { CommentModelType } from '../models'
 
 export interface Comment {
-  user: { name: string, userId: string }
+  user: { name: string; userId: string }
   commentId: string
   message: string
   commentedOn: Date
   likes: string[]
-  postId: string,
+  postId: string
   parentId?: string
 }
 

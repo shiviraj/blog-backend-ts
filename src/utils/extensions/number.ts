@@ -1,7 +1,15 @@
 export const Integer = {
   ZERO: 0,
   ONE: 1,
-  NEGATIVE_ONE: -1
+  NEGATIVE_ONE: -1,
+  SEVEN: 7
+}
+
+export const HttpStatus = {
+  NOT_FOUND: 404,
+  UNAUTHORIZED: 401,
+  INTERNAL_SERVER_ERROR: 500,
+  BAD_REQUEST: 400
 }
 
 declare global {
@@ -22,32 +30,32 @@ declare global {
   }
 }
 
-Number.prototype.add = function(this: number, number: number): number {
+Number.prototype.add = function (this: number, number: number): number {
   return this + number
 }
 
-Number.prototype.isGreaterThan = function(this: number, threshold: number): boolean {
+Number.prototype.isGreaterThan = function (this: number, threshold: number): boolean {
   return this > threshold
 }
 
-Number.prototype.isEqualTo = function(this: number, number: number): boolean {
+Number.prototype.isEqualTo = function (this: number, number: number): boolean {
   return this === number
 }
 
-Number.prototype.isZero = function(this: number): boolean {
+Number.prototype.isZero = function (this: number): boolean {
   return this.isEqualTo(Integer.ZERO)
 }
 
-Number.prototype.isGreaterThanZero = function(this: number): boolean {
+Number.prototype.isGreaterThanZero = function (this: number): boolean {
   return this.isGreaterThan(Integer.ZERO)
 }
 
-Number.prototype.isBetween = function(this: number, start: number, end: number): boolean {
+Number.prototype.isBetween = function (this: number, start: number, end: number): boolean {
   const startNumber = Math.min(start, end)
   const endNumber = Math.max(start, end)
   return startNumber <= this && this <= endNumber
 }
 
-Number.prototype.isNotBetween = function(this: number, start: number, end: number): boolean {
+Number.prototype.isNotBetween = function (this: number, start: number, end: number): boolean {
   return !this.isBetween(start, end)
 }

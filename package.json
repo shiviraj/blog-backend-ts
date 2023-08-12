@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prettier:check": "prettier src --check",
+    "prettier:fix": "prettier src --write",
+    "eslint:fix": "eslint . --fix",
+    "eslint:check": "eslint .",
+    "lint:fix": "npm run prettier:fix && npm run eslint:fix",
+    "lint:check": "npm run prettier:check && npm run eslint:check",
     "test": "jest",
     "dev": "ts-node-dev src/index.ts",
     "build": "tsc",
     "start": "node dist",
-    "eslint:check": "eslint .",
-    "eslint:fix": "eslint . --fix",
     "docker:push": "sh build.sh"
   },
   "keywords": [],
@@ -24,6 +28,7 @@
     "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "eslint": "^8.37.0",
+    "prettier": "^3.0.1",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.3"
@@ -33,6 +38,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "logging-starter": "^0.0.3",
     "mongoose": "^7.0.3"
   }
 }

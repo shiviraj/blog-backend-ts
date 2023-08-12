@@ -15,7 +15,6 @@ class BadRequestError extends Error {
       this.errorMessage = error.errorMessage
     }
   }
-
 }
 
 export default BadRequestError

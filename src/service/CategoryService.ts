@@ -1,4 +1,4 @@
-import type { CategoryRepository} from '../repository'
+import type { CategoryRepository } from '../repository'
 import { SequenceId } from '../repository'
 import type { CategoryModelType } from '../models'
 import type { IdGeneratorService } from './index'
@@ -26,14 +26,31 @@ class CategoryService {
   }
 
   addNewCategory(name: string, parentId: string): Promise<CategoryModelType> {
-    return this.idGeneratorService.generate(SequenceId.CATEGORY)
-      .then((categoryId) => {
+    return this.idGeneratorService
+      .generate(SequenceId.CATEGORY)
+      .then(categoryId => {
         const url = name.toLowerCase().split(' ').join('-').split('--').join('-')
-        const parsedName = name.toLowerCase().split(' ').map(partialName => capitalized(partialName)).join(' ').split('  ').join(' ')
+        const parsedName = name
+          .toLowerCase()
+          .split(' ')
+          .map(partialName => capitalized(partialName))
+          .join(' ')
+          .split('  ')
+          .join(' ')
         return this.categoryRepository.addCategory(categoryId, url, parsedName, parentId)
       })
-      .logOnSuccess('Successfully added new category', {}, { name })
-      .logOnError('', 'Failed to add new category', {}, { name })
+      .logOnSuccess({
+        message: 'Successfully added new category',
+        additionalData: {
+          name
+        }
+      })
+      .logOnError({
+        errorMessage: 'Failed to add new category',
+        additionalData: {
+          name
+        }
+      })
   }
 }
 

@@ -6,9 +6,7 @@ import { siteController } from './controllers'
 const router = express.Router()
 
 router.get('', (req: Request, res: Response) => {
-  siteController.getSiteDetails()
-    .sendSuccessResponse(res)
-    .sendFailureResponseWithNoError(res)
+  siteController.getSiteDetails().sendSuccessResponse(res).sendFailureResponseWithNoError(res)
 })
 
 export default router

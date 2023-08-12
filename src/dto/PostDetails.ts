@@ -1,4 +1,5 @@
 import type { AuthorModelType, CategoryModelType, CommentModelType, PostModelType, TagModelType } from '../models'
+import type { Block } from '../models'
 import type { Author } from './Author'
 import { buildAuthor } from './Author'
 import type { Tag } from './Tag'
@@ -7,26 +8,33 @@ import type { Category } from './Category'
 import { buildCategory } from './Category'
 import type { Comment } from './Comment'
 import { buildComment } from './Comment'
-import { buildPostSummary, generateSummary } from './PostSummary'
+import { generateSummary } from './PostSummary'
 
 export interface PostDetails {
-  postId: string,
-  url: string,
-  title: string,
-  publishedOn: Date,
-  lastUpdateOn: Date,
-  commentsAllowed: boolean,
-  author: Author,
+  postId: string
+  url: string
+  title: string
+  publishedOn: Date
+  lastUpdateOn: Date
+  commentsAllowed: boolean
+  author: Author
   featuredImage?: string
-  comments: Comment[],
-  tags: Tag[],
-  categories: Category[],
-  content: any,
-  likes: string[],
+  comments: Comment[]
+  tags: Tag[]
+  categories: Category[]
+  content: { time: string; blocks: Block[] }
+  likes: string[]
   summary: string
 }
 
-export const buildPostDetails = (post: PostModelType, author: AuthorModelType, tags: TagModelType[], categories: CategoryModelType[], comments: CommentModelType[]): PostDetails => {
+export const buildPostDetails = (
+  post: PostModelType,
+  author: AuthorModelType,
+  tags: TagModelType[],
+  categories: CategoryModelType[],
+  comments: CommentModelType[]
+  // eslint-disable-next-line max-params
+): PostDetails => {
   return {
     author: buildAuthor(author),
     commentsAllowed: post.commentsAllowed,
@@ -41,6 +49,6 @@ export const buildPostDetails = (post: PostModelType, author: AuthorModelType, t
     tags: tags.map(buildTag),
     content: post.publishedContent,
     likes: post.likes,
-    summary: generateSummary(post).replace(/(<([^>]+)>)/ig, ' ')
+    summary: generateSummary(post).replace(/(<([^>]+)>)/gi, ' ')
   }
 }

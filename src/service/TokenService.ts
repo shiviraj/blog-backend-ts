@@ -15,13 +15,14 @@ class TokenService {
   }
 
   generate(authorId: string): Promise<TokenModelType> {
-    return this.idGeneratorService.generate(SequenceId.TOKEN)
+    return this.idGeneratorService
+      .generate(SequenceId.TOKEN)
       .then((tokenId: string) => {
         const tokenString = jwt.sign({ tokenId, authorId }, JWT_SECRET)
         return this.tokenRepository.saveToken({ tokenId, authorId, tokenString })
       })
-      .logOnSuccess('Successfully generated token')
-      .logOnError('', 'Failed to generate token')
+      .logOnSuccess({ message: 'Successfully generated token' })
+      .logOnError({ errorMessage: 'Failed to generate token' })
   }
 
   validate(tokenString: string): Promise<TokenModelType> {

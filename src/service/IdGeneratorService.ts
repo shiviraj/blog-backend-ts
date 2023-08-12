@@ -1,5 +1,5 @@
 import type { IdGeneratorRepository, IdType } from '../repository'
-import { Integer } from '../utils/extensions/number'
+import { Integer } from '../utils/extensions'
 
 class IdGeneratorService {
   private readonly idGeneratorRepository: IdGeneratorRepository
@@ -9,16 +9,16 @@ class IdGeneratorService {
   }
 
   generate(sequenceId: IdType): Promise<string> {
-    return this.idGeneratorRepository.findByName(sequenceId.name)
+    return this.idGeneratorRepository
+      .findByName(sequenceId.name)
       .catch(() => {
-        return this.idGeneratorRepository.saveOne(sequenceId.name, 0)
+        return this.idGeneratorRepository.saveOne(sequenceId.name, Integer.ZERO)
       })
-      .then((id) => {
+      .then(id => {
         const sequence = id.sequence.add(Integer.ONE)
-        return this.idGeneratorRepository.updateSequenceByName(sequence, id.name)
-          .then(() => {
-            return sequence.toString().padStart(sequenceId.length, '0')
-          })
+        return this.idGeneratorRepository.updateSequenceByName(sequence, id.name).then(() => {
+          return sequence.toString().padStart(sequenceId.length, '0')
+        })
       })
   }
 }

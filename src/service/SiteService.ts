@@ -1,5 +1,5 @@
 import type { SiteRepository } from '../repository'
-import { SiteModelType } from '../models'
+import type { SiteModelType } from '../models'
 
 class SiteService {
   private readonly siteRepository: SiteRepository

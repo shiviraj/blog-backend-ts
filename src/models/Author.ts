@@ -6,8 +6,8 @@ export interface AuthorModelType extends Document {
   displayName?: string
   profile: string
   name: string
-  authorId: string,
-  username: string,
+  authorId: string
+  username: string
   registeredAt: Date
 }
 
